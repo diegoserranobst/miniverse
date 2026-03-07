@@ -1,0 +1,31 @@
+{
+  "name": "miniverse-generate",
+  "version": "0.1.0",
+  "description": "AI sprite generator for Miniverse — create character and furniture sprites from prompts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "miniverse-generate": "./bin/miniverse-generate.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --watch"
+  },
+  "dependencies": {
+    "@fal-ai/client": "^1.2.0",
+    "sharp": "^0.34.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.21.0",
+    "typescript": "^5.4.0"
+  },
+  "keywords": ["miniverse", "ai", "sprite", "pixel-art", "generation"],
+  "license": "MIT"
+}

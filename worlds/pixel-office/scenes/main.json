@@ -1,7 +1,7 @@
 {
   "name": "main",
-  "tileWidth": 16,
-  "tileHeight": 16,
+  "tileWidth": 32,
+  "tileHeight": 32,
   "columns": 16,
   "rows": 12,
   "locations": {

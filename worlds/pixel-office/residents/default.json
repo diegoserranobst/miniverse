@@ -1,8 +1,8 @@
 {
-  "frameWidth": 16,
-  "frameHeight": 24,
+  "frameWidth": 64,
+  "frameHeight": 64,
   "sheets": {
-    "base": "default.png"
+    "base": "morty_walk.png"
   },
   "animations": {
     "idle_down": { "sheet": "base", "row": 0, "frames": 2, "speed": 0.5 },

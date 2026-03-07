@@ -15,6 +15,41 @@ export type AgentState =
   | 'speaking'
   | 'offline';
 
+export type AnchorType = 'work' | 'rest' | 'social' | 'utility' | 'wander';
+
+export interface TypedLocation {
+  name: string;
+  x: number;
+  y: number;
+  type: AnchorType;
+}
+
+/** Maps tile "x,y" → agentId that currently claims it */
+export class TileReservation {
+  private map = new Map<string, string>();
+
+  private key(x: number, y: number): string { return `${x},${y}`; }
+
+  reserve(x: number, y: number, agentId: string): boolean {
+    const k = this.key(x, y);
+    const current = this.map.get(k);
+    if (current && current !== agentId) return false;
+    this.map.set(k, agentId);
+    return true;
+  }
+
+  release(agentId: string) {
+    for (const [k, v] of this.map) {
+      if (v === agentId) this.map.delete(k);
+    }
+  }
+
+  isAvailable(x: number, y: number, agentId: string): boolean {
+    const current = this.map.get(this.key(x, y));
+    return !current || current === agentId;
+  }
+}
+
 export interface ResidentConfig {
   agentId: string;
   name: string;
@@ -60,6 +95,7 @@ export class Resident {
 
   private idleBehaviorTimer = 0;
   private idleBehaviorInterval = 5 + Math.random() * 5;
+  private currentAnchor: string | null = null;
 
   constructor(
     config: ResidentConfig,
@@ -80,6 +116,10 @@ export class Resident {
 
   getHomePosition(): string {
     return this.homePosition;
+  }
+
+  setHomePosition(position: string) {
+    this.homePosition = position;
   }
 
   setPixelPosition(x: number, y: number) {
@@ -131,11 +171,18 @@ export class Resident {
     }
   }
 
-  update(delta: number, pathfinder: Pathfinder, locations: Record<string, { x: number; y: number }>) {
+  update(
+    delta: number,
+    pathfinder: Pathfinder,
+    locations: Record<string, { x: number; y: number }>,
+    typedLocations?: TypedLocation[],
+    reservation?: TileReservation,
+    excludeNames?: Set<string>,
+  ) {
     if (this.isMoving()) {
       this.updateMovement(delta);
     } else if (this.state === 'idle') {
-      this.updateIdleBehavior(delta, pathfinder, locations);
+      this.updateIdleBehavior(delta, pathfinder, locations, typedLocations, reservation, excludeNames);
     } else {
       const anim = STATE_ANIMATION_MAP[this.state] ?? 'idle_down';
       if (this.animator.getCurrentAnimation() !== anim) {
@@ -186,10 +233,97 @@ export class Resident {
     }
   }
 
+  /** Navigate to a specific anchor by name */
+  goToAnchor(
+    anchorName: string,
+    typedLocations: TypedLocation[],
+    pathfinder: Pathfinder,
+    reservation?: TileReservation,
+  ): boolean {
+    const loc = typedLocations.find(l => l.name === anchorName);
+    if (!loc) return false;
+    if (reservation && !reservation.isAvailable(loc.x, loc.y, this.agentId)) return false;
+
+    const tile = this.getTilePosition();
+
+    // Already at the target — claim it and stay
+    if (tile.x === loc.x && tile.y === loc.y) {
+      if (reservation) {
+        reservation.release(this.agentId);
+        reservation.reserve(loc.x, loc.y, this.agentId);
+      }
+      this.currentAnchor = loc.name;
+      return true;
+    }
+
+    const path = pathfinder.findPath(tile.x, tile.y, loc.x, loc.y);
+    if (path.length > 1) {
+      if (reservation) {
+        reservation.release(this.agentId);
+        reservation.reserve(loc.x, loc.y, this.agentId);
+      }
+      this.currentAnchor = loc.name;
+      this.walkTo(path);
+      return true;
+    }
+    return false;
+  }
+
+  /** Navigate to a specific anchor by type, respecting reservation */
+  goToAnchorType(
+    type: AnchorType,
+    typedLocations: TypedLocation[],
+    pathfinder: Pathfinder,
+    reservation?: TileReservation,
+    excludeNames?: Set<string>,
+  ): boolean {
+    const candidates = typedLocations.filter(l =>
+      l.type === type && (!excludeNames || !excludeNames.has(l.name))
+    );
+    if (candidates.length === 0) return false;
+
+    // Shuffle to avoid always picking the same one
+    const shuffled = [...candidates].sort(() => Math.random() - 0.5);
+    const tile = this.getTilePosition();
+
+    for (const loc of shuffled) {
+      if (reservation && !reservation.isAvailable(loc.x, loc.y, this.agentId)) continue;
+
+      // Already at this anchor — claim it and stay
+      if (tile.x === loc.x && tile.y === loc.y) {
+        if (reservation) {
+          reservation.release(this.agentId);
+          reservation.reserve(loc.x, loc.y, this.agentId);
+        }
+        this.currentAnchor = loc.name;
+        return true;
+      }
+
+      const path = pathfinder.findPath(tile.x, tile.y, loc.x, loc.y);
+      if (path.length > 1) {
+        if (reservation) {
+          reservation.release(this.agentId);
+          reservation.reserve(loc.x, loc.y, this.agentId);
+        }
+        this.currentAnchor = loc.name;
+        this.walkTo(path);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getCurrentAnchor(): string | null {
+    return this.currentAnchor;
+  }
+
   private updateIdleBehavior(
     delta: number,
     pathfinder: Pathfinder,
     locations: Record<string, { x: number; y: number }>,
+    typedLocations?: TypedLocation[],
+    reservation?: TileReservation,
+    excludeNames?: Set<string>,
   ) {
     this.idleBehaviorTimer += delta;
     if (this.idleBehaviorTimer < this.idleBehaviorInterval) return;
@@ -197,6 +331,15 @@ export class Resident {
     this.idleBehaviorTimer = 0;
     this.idleBehaviorInterval = 5 + Math.random() * 8;
 
+    // Prefer typed locations with smart selection
+    if (typedLocations && typedLocations.length > 0) {
+      // When idle, prefer wander/social/utility spots (never other people's home anchors)
+      const preferredTypes: AnchorType[] = ['wander', 'social', 'utility'];
+      const type = preferredTypes[Math.floor(Math.random() * preferredTypes.length)];
+      if (this.goToAnchorType(type, typedLocations, pathfinder, reservation, excludeNames)) return;
+    }
+
+    // Fallback to plain locations
     const locationNames = Object.keys(locations);
     if (locationNames.length === 0) return;
 
@@ -209,12 +352,18 @@ export class Resident {
     }
   }
 
+  /** Y offset applied when the character is sitting (working/sleeping) */
+  getSittingOffset(): number {
+    return (this.state === 'working' || this.state === 'sleeping')
+      ? this.tileHeight * 1.2
+      : 0;
+  }
+
   draw(ctx: CanvasRenderingContext2D) {
     if (!this.visible) return;
 
-    // Draw sprite centered on tile
     const drawX = this.x + (this.tileWidth - this.frameWidth) / 2;
-    const drawY = this.y + (this.tileHeight - this.frameHeight);
+    const drawY = this.y + (this.tileHeight - this.frameHeight) - this.getSittingOffset();
     this.animator.draw(ctx, drawX, drawY);
   }
 
@@ -230,19 +379,61 @@ export class Resident {
   }
 }
 
-export class ResidentLayer implements RenderLayer {
-  readonly order = 10;
+/** Renders residents that are stationary — drawn BELOW the 'above' furniture layer */
+export class ResidentLayerBelow implements RenderLayer {
+  readonly order = 12;
   private residents: Resident[] = [];
 
-  setResidents(residents: Resident[]) {
-    this.residents = residents;
-  }
+  setResidents(residents: Resident[]) { this.residents = residents; }
 
   render(ctx: CanvasRenderingContext2D, _delta: number) {
-    // Sort by y position for depth
-    const sorted = [...this.residents].sort((a, b) => a.y - b.y);
-    for (const resident of sorted) {
+    const stationary = this.residents
+      .filter(r => r.visible && !r.isMoving())
+      .sort((a, b) => a.y - b.y);
+    for (const resident of stationary) {
       resident.draw(ctx);
     }
+  }
+}
+
+/** Renders residents that are walking — drawn ABOVE the 'above' furniture layer */
+export class ResidentLayerAbove implements RenderLayer {
+  readonly order = 20;
+  private residents: Resident[] = [];
+
+  setResidents(residents: Resident[]) { this.residents = residents; }
+
+  render(ctx: CanvasRenderingContext2D, _delta: number) {
+    const moving = this.residents
+      .filter(r => r.visible && r.isMoving())
+      .sort((a, b) => a.y - b.y);
+    for (const resident of moving) {
+      resident.draw(ctx);
+    }
+  }
+}
+
+/** Combined layer — legacy compat */
+export class ResidentLayer implements RenderLayer {
+  readonly order = 10;
+  private below: ResidentLayerBelow;
+  private above: ResidentLayerAbove;
+
+  constructor() {
+    this.below = new ResidentLayerBelow();
+    this.above = new ResidentLayerAbove();
+  }
+
+  setResidents(residents: Resident[]) {
+    this.below.setResidents(residents);
+    this.above.setResidents(residents);
+  }
+
+  getLayers(): RenderLayer[] {
+    return [this.below, this.above];
+  }
+
+  render(_ctx: CanvasRenderingContext2D, _delta: number) {
+    // Not used directly — use getLayers() instead
   }
 }

@@ -1,9 +1,9 @@
 {
   "name": "pixel-office",
   "description": "A cozy pixel art office for your AI agents",
-  "tileSize": 16,
-  "canvasWidth": 256,
-  "canvasHeight": 192,
+  "tileSize": 32,
+  "canvasWidth": 512,
+  "canvasHeight": 384,
   "defaultScale": 2,
   "scenes": ["main"],
   "defaultScene": "main"

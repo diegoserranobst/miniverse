@@ -3,8 +3,8 @@ import { Scene } from './scene/Scene';
 import type { SceneConfig, NamedLocation } from './scene/Scene';
 import { SpriteSheet } from './sprites/SpriteSheet';
 import type { SpriteSheetConfig } from './sprites/SpriteSheet';
-import { Resident, ResidentLayer } from './residents/Resident';
-import type { ResidentConfig, AgentState } from './residents/Resident';
+import { Resident, ResidentLayer, TileReservation } from './residents/Resident';
+import type { ResidentConfig, AgentState, TypedLocation, AnchorType } from './residents/Resident';
 import { InteractiveObject } from './objects/InteractiveObject';
 import type { ObjectConfig } from './objects/InteractiveObject';
 import { ParticleSystem } from './effects/Particles';
@@ -42,12 +42,14 @@ export class Miniverse {
   private eventHandlers: Map<MiniverseEvent, Set<(data: unknown) => void>> = new Map();
 
   private particleTimers: Map<string, number> = new Map();
+  private typedLocations: TypedLocation[] = [];
+  private reservation = new TileReservation();
 
   constructor(config: MiniverseConfig) {
     this.config = config;
     const scale = config.scale ?? 2;
-    const width = config.width ?? 256;
-    const height = config.height ?? 192;
+    const width = config.width ?? 512;
+    const height = config.height ?? 384;
 
     this.renderer = new Renderer(config.container, width, height, scale);
     this.scene = new Scene(config.sceneConfig ?? createDefaultSceneConfig());
@@ -67,7 +69,9 @@ export class Miniverse {
         }
       },
     });
-    this.renderer.addLayer(this.residentLayer);
+    for (const layer of this.residentLayer.getLayers()) {
+      this.renderer.addLayer(layer);
+    }
     this.renderer.addLayer(this.particles);
     this.renderer.addLayer(this.speechBubbles);
 
@@ -79,12 +83,12 @@ export class Miniverse {
           if (!r.visible) continue;
           // Draw name tag
           ctx.save();
-          ctx.font = '4px monospace';
+          ctx.font = '8px monospace';
           ctx.fillStyle = 'rgba(0,0,0,0.6)';
           const nameWidth = ctx.measureText(r.name).width;
           const tagX = r.x + (this.scene.config.tileWidth - nameWidth) / 2;
-          const tagY = r.y - r.spriteSheet.config.frameHeight + this.scene.config.tileHeight - 2;
-          ctx.fillRect(tagX - 1, tagY - 4, nameWidth + 2, 6);
+          const tagY = r.y - r.spriteSheet.config.frameHeight + this.scene.config.tileHeight - 4 - r.getSittingOffset();
+          ctx.fillRect(tagX - 2, tagY - 8, nameWidth + 4, 12);
           ctx.fillStyle = '#ffffff';
           ctx.fillText(r.name, tagX, tagY);
           ctx.restore();
@@ -114,7 +118,8 @@ export class Miniverse {
           locations[key] = { x: loc.x, y: loc.y };
         }
         for (const resident of this.residents) {
-          resident.update(delta, this.scene.pathfinder, locations);
+          const otherHomes = this.getOtherHomeAnchors(resident.agentId);
+          resident.update(delta, this.scene.pathfinder, locations, this.typedLocations, this.reservation, otherHomes);
           this.updateResidentEffects(resident, delta);
         }
       },
@@ -139,10 +144,13 @@ export class Miniverse {
         this.scene.config.tileHeight,
       );
 
-      // Place at named location
+      // Place at named location (scene locations, then typed locations)
       const loc = this.scene.getLocation(resConfig.position);
       if (loc) {
         resident.setTilePosition(loc.x, loc.y);
+      } else {
+        const typed = this.typedLocations.find(l => l.name === resConfig.position);
+        if (typed) resident.setTilePosition(typed.x, typed.y);
       }
 
       this.residents.push(resident);
@@ -156,6 +164,14 @@ export class Miniverse {
   stop() {
     this.renderer.stop();
     this.signal.stop();
+  }
+
+  getCanvas(): HTMLCanvasElement {
+    return this.renderer.canvas;
+  }
+
+  addLayer(layer: { order: number; render(ctx: CanvasRenderingContext2D, delta: number): void }) {
+    this.renderer.addLayer(layer);
   }
 
   on(event: MiniverseEvent, handler: (data: unknown) => void) {
@@ -207,6 +223,43 @@ export class Miniverse {
     }
   }
 
+  setTypedLocations(locations: TypedLocation[]) {
+    this.typedLocations = locations;
+  }
+
+  /** Update walkability grid: reset to base then overlay blocked tiles */
+  updateWalkability(blockedTiles: Set<string>) {
+    const grid = this.scene.config.walkable;
+    const rows = grid.length;
+    const cols = grid[0]?.length ?? 0;
+
+    // Reset: walls on edges, floor inside
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        grid[r][c] = !(r === 0 || r === rows - 1 || c === 0 || c === cols - 1);
+      }
+    }
+
+    // Overlay furniture blocks
+    for (const key of blockedTiles) {
+      const [x, y] = key.split(',').map(Number);
+      if (y >= 0 && y < rows && x >= 0 && x < cols) {
+        grid[y][x] = false;
+      }
+    }
+
+    // Keep anchor destinations walkable so pathfinding can reach them
+    for (const loc of this.typedLocations) {
+      if (loc.y >= 0 && loc.y < rows && loc.x >= 0 && loc.x < cols) {
+        grid[loc.y][loc.x] = true;
+      }
+    }
+  }
+
+  getReservation(): TileReservation {
+    return this.reservation;
+  }
+
   getResident(agentId: string): Resident | undefined {
     return this.residents.find(r => r.agentId === agentId);
   }
@@ -237,27 +290,44 @@ export class Miniverse {
     }
   }
 
-  private handleStateTransition(resident: Resident, from: AgentState, to: AgentState) {
-    const loc = this.scene.config.locations;
+  /** Returns anchor names assigned as home positions to other residents */
+  private getOtherHomeAnchors(excludeAgentId: string): Set<string> {
+    const homes = new Set<string>();
+    for (const r of this.residents) {
+      if (r.agentId !== excludeAgentId) {
+        homes.add(r.getHomePosition());
+      }
+    }
+    return homes;
+  }
 
-    if (to === 'sleeping' && loc['couch']) {
-      const tile = resident.getTilePosition();
-      const path = this.scene.pathfinder.findPath(tile.x, tile.y, loc['couch'].x, loc['couch'].y);
-      if (path.length > 1) resident.walkTo(path);
-    } else if (to === 'working') {
-      const homeLoc = loc[resident.getHomePosition()];
-      if (homeLoc) {
-        const tile = resident.getTilePosition();
-        const path = this.scene.pathfinder.findPath(tile.x, tile.y, homeLoc.x, homeLoc.y);
-        if (path.length > 1) resident.walkTo(path);
+  private handleStateTransition(resident: Resident, from: AgentState, to: AgentState) {
+    // All assigned home anchors belonging to other residents are always off-limits
+    const otherHomes = this.getOtherHomeAnchors(resident.agentId);
+
+    if (this.typedLocations.length > 0) {
+      if (to === 'working') {
+        // Go to assigned home anchor specifically
+        const home = resident.getHomePosition();
+        if (!resident.goToAnchor(home, this.typedLocations, this.scene.pathfinder, this.reservation)) {
+          // Fallback: any unassigned work anchor
+          resident.goToAnchorType('work', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
+        }
+      } else if (to === 'sleeping') {
+        resident.goToAnchorType('rest', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
+      } else if (to === 'speaking') {
+        resident.goToAnchorType('social', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
+      } else if (to === 'thinking') {
+        resident.goToAnchorType('utility', this.typedLocations, this.scene.pathfinder, this.reservation, otherHomes);
       }
-      if (resident.task) {
-        this.speechBubbles.show(resident.x + 8, resident.y - 4, resident.task, 4);
-      }
+    }
+
+    if (to === 'working' && resident.task) {
+      this.speechBubbles.show(resident.x + 16, resident.y - 8, resident.task, 4, resident);
     } else if (to === 'error') {
-      this.particles.emitExclamation(resident.x + 8, resident.y);
+      this.particles.emitExclamation(resident.x + 16, resident.y - resident.getSittingOffset());
     } else if (to === 'speaking' && resident.task) {
-      this.speechBubbles.show(resident.x + 8, resident.y - 4, resident.task, 5);
+      this.speechBubbles.show(resident.x + 16, resident.y - 8, resident.task, 5, resident);
     }
   }
 
@@ -268,17 +338,17 @@ export class Miniverse {
 
     if (resident.state === 'sleeping' && timer > 1.5) {
       this.particleTimers.set(key, 0);
-      this.particles.emitZzz(resident.x + 8, resident.y);
+      this.particles.emitZzz(resident.x + 16, resident.y);
     }
 
     if (resident.state === 'thinking' && timer > 2) {
       this.particleTimers.set(key, 0);
-      this.particles.emitThought(resident.x + 8, resident.y);
+      this.particles.emitThought(resident.x + 16, resident.y);
     }
 
     if (resident.state === 'error' && timer > 2) {
       this.particleTimers.set(key, 0);
-      this.particles.emitExclamation(resident.x + 8, resident.y);
+      this.particles.emitExclamation(resident.x + 16, resident.y);
     }
   }
 
@@ -339,8 +409,8 @@ function createDefaultSceneConfig(): SceneConfig {
 
   return {
     name: 'main',
-    tileWidth: 16,
-    tileHeight: 16,
+    tileWidth: 32,
+    tileHeight: 32,
     layers: [floor],
     walkable,
     locations: {
@@ -354,8 +424,8 @@ function createDefaultSceneConfig(): SceneConfig {
     },
     tilesets: [{
       image: 'tilesets/office.png',
-      tileWidth: 16,
-      tileHeight: 16,
+      tileWidth: 32,
+      tileHeight: 32,
       columns: 16,
     }],
   };
@@ -364,11 +434,11 @@ function createDefaultSceneConfig(): SceneConfig {
 function createDefaultSpriteConfig(): SpriteSheetConfig {
   return {
     sheets: {
-      base: 'default.png',
+      base: 'morty_walk.png',
     },
     animations: {
       idle_down: { sheet: 'base', row: 0, frames: 2, speed: 0.5 },
-      idle_up: { sheet: 'base', row: 0, frames: 2, speed: 0.5 },
+      idle_up: { sheet: 'base', row: 1, frames: 2, speed: 0.5 },
       walk_down: { sheet: 'base', row: 0, frames: 4, speed: 0.2 },
       walk_up: { sheet: 'base', row: 1, frames: 4, speed: 0.2 },
       walk_left: { sheet: 'base', row: 2, frames: 4, speed: 0.2 },
@@ -377,8 +447,8 @@ function createDefaultSpriteConfig(): SpriteSheetConfig {
       sleeping: { sheet: 'base', row: 0, frames: 2, speed: 0.8 },
       talking: { sheet: 'base', row: 0, frames: 4, speed: 0.15 },
     },
-    frameWidth: 16,
-    frameHeight: 24,
+    frameWidth: 64,
+    frameHeight: 64,
   };
 }
 
@@ -390,8 +460,8 @@ export { SpriteSheet, Animator } from './sprites';
 export type { SpriteSheetConfig, AnimationDef } from './sprites';
 export { Scene, Pathfinder } from './scene';
 export type { SceneConfig, TilesetConfig, NamedLocation } from './scene';
-export { Resident, ResidentLayer } from './residents';
-export type { ResidentConfig, AgentState } from './residents';
+export { Resident, ResidentLayer, TileReservation } from './residents';
+export type { ResidentConfig, AgentState, TypedLocation, AnchorType } from './residents';
 export { InteractiveObject } from './objects';
 export type { ObjectConfig } from './objects';
 export { ParticleSystem } from './effects';

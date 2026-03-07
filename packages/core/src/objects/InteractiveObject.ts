@@ -87,7 +87,7 @@ export class InteractiveObject {
         if (this.active) {
           ctx.fillStyle = '#ff4444';
           ctx.beginPath();
-          ctx.arc(drawX + width / 2, drawY + 2, 1.5, 0, Math.PI * 2);
+          ctx.arc(drawX + width / 2, drawY + 4, 3, 0, Math.PI * 2);
           ctx.fill();
         }
         break;
@@ -100,8 +100,8 @@ export class InteractiveObject {
         ctx.strokeRect(drawX, drawY, width, height);
         if (this.displayText) {
           ctx.fillStyle = '#333333';
-          ctx.font = '4px monospace';
-          ctx.fillText(this.displayText.substring(0, 20), drawX + 2, drawY + height / 2 + 1);
+          ctx.font = '8px monospace';
+          ctx.fillText(this.displayText.substring(0, 20), drawX + 4, drawY + height / 2 + 2);
         }
         break;
 

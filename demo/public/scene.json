@@ -1,0 +1,204 @@
+{
+  "furniture": [
+    {
+      "id": "desk",
+      "x": 2,
+      "y": 1,
+      "w": 2.5,
+      "h": 1.8,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 1,
+          "oy": 2,
+          "type": "work",
+          "name": "desk_0_0"
+        }
+      ]
+    },
+    {
+      "id": "desk",
+      "x": 7,
+      "y": 1,
+      "w": 2.5,
+      "h": 1.8,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 1,
+          "oy": 2,
+          "type": "work",
+          "name": "desk_1_0"
+        }
+      ]
+    },
+    {
+      "id": "whiteboard",
+      "x": 5,
+      "y": 0.1,
+      "w": 2,
+      "h": 1.2,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 1,
+          "oy": 1.5,
+          "type": "social",
+          "name": "whiteboard_2_0"
+        }
+      ]
+    },
+    {
+      "id": "coffee_machine",
+      "x": 12.9,
+      "y": 1,
+      "w": 1.4,
+      "h": 1.8,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 0.5,
+          "oy": 1.8,
+          "type": "utility",
+          "name": "coffee_machine_3_0"
+        }
+      ]
+    },
+    {
+      "id": "bookshelf",
+      "x": 1,
+      "y": 6,
+      "w": 1.5,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "couch",
+      "x": 10,
+      "y": 8,
+      "w": 2.8,
+      "h": 1.6,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 0.5,
+          "oy": 0,
+          "type": "rest",
+          "name": "couch_5_0"
+        },
+        {
+          "ox": 1.5,
+          "oy": 0,
+          "type": "rest",
+          "name": "couch_5_1"
+        }
+      ]
+    },
+    {
+      "id": "plant",
+      "x": 8.8,
+      "y": 7.8,
+      "w": 1.1,
+      "h": 1.6,
+      "layer": "below"
+    },
+    {
+      "id": "water_cooler",
+      "x": 14,
+      "y": 4,
+      "w": 0.8,
+      "h": 1.8,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 0,
+          "oy": 1.8,
+          "type": "utility",
+          "name": "water_cooler_7_0"
+        }
+      ]
+    },
+    {
+      "id": "lamp",
+      "x": 2.3,
+      "y": 8,
+      "w": 0.8,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "chair",
+      "x": 2.9,
+      "y": 2.4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "above"
+    },
+    {
+      "id": "chair",
+      "x": 7.9,
+      "y": 2.4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "above"
+    },
+    {
+      "id": "desk",
+      "x": 5,
+      "y": 5,
+      "w": 2.3,
+      "h": 2,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 1,
+          "oy": 2,
+          "type": "work",
+          "name": "desk_11_0"
+        }
+      ]
+    },
+    {
+      "id": "desk",
+      "x": 10,
+      "y": 5,
+      "w": 2.3,
+      "h": 2,
+      "layer": "below",
+      "anchors": [
+        {
+          "ox": 1,
+          "oy": 2,
+          "type": "work",
+          "name": "desk_12_0"
+        }
+      ]
+    },
+    {
+      "id": "chair",
+      "x": 6,
+      "y": 5.75,
+      "w": 0.8999999999999999,
+      "h": 1.5999999999999996,
+      "layer": "below"
+    }
+  ],
+  "characters": {
+    "morty": "desk_0_0",
+    "dexter": "desk_11_0",
+    "nova": "desk_12_0",
+    "rio": "desk_1_0"
+  },
+  "wanderPoints": [
+    {
+      "name": "wander_center",
+      "x": 7,
+      "y": 6
+    },
+    {
+      "name": "wander_lounge",
+      "x": 5,
+      "y": 8
+    }
+  ]
+}

@@ -8,13 +8,14 @@
   "scripts": {
     "dev": "npm run dev --workspace=demo",
     "start": "node packages/server/dist/cli.js",
-    "build": "npm run build --workspace=packages/core && node packages/server/build.js",
-    "build:server": "node packages/server/build.js",
+    "build": "npm run build --workspace=packages/core && cd packages/server && node build.js",
+    "build:server": "cd packages/server && node build.js",
     "build:all": "npm run build --workspaces",
     "lint": "eslint packages/*/src/**/*.ts",
     "typecheck": "tsc --noEmit --project packages/core/tsconfig.json"
   },
   "devDependencies": {
+    "sharp": "^0.34.5",
     "typescript": "^5.4.0"
   }
 }

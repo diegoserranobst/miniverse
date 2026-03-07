@@ -18,14 +18,14 @@ export class ParticleSystem implements RenderLayer {
 
   emitZzz(x: number, y: number) {
     this.particles.push({
-      x: x + Math.random() * 8,
+      x: x + Math.random() * 16,
       y,
-      vx: 0.2 + Math.random() * 0.3,
-      vy: -0.5 - Math.random() * 0.3,
+      vx: 0.3 + Math.random() * 0.4,
+      vy: -0.8 - Math.random() * 0.4,
       life: 2,
       maxLife: 2,
       text: 'Z',
-      size: 6 + Math.random() * 4,
+      size: 10 + Math.random() * 6,
       alpha: 1,
     });
   }
@@ -33,27 +33,27 @@ export class ParticleSystem implements RenderLayer {
   emitExclamation(x: number, y: number) {
     this.particles.push({
       x,
-      y: y - 4,
+      y: y - 8,
       vx: 0,
-      vy: -0.3,
+      vy: -0.4,
       life: 1.5,
       maxLife: 1.5,
       text: '!',
-      size: 8,
+      size: 14,
       alpha: 1,
     });
   }
 
   emitThought(x: number, y: number) {
     this.particles.push({
-      x: x + 6,
-      y: y - 2,
+      x: x + 12,
+      y: y - 4,
       vx: 0,
-      vy: -0.2,
+      vy: -0.3,
       life: 2,
       maxLife: 2,
       text: '...',
-      size: 5,
+      size: 10,
       alpha: 1,
     });
   }
