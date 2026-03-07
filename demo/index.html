@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miniverse Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #1a1a2e;
+      color: #eee;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 16px;
+    }
+    h1 {
+      font-size: 20px;
+      color: #e94560;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    #miniverse-container {
+      border: 2px solid #333;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #0f0f23;
+    }
+    #miniverse-container canvas {
+      display: block;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    button {
+      background: #16213e;
+      border: 1px solid #e94560;
+      color: #e94560;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      border-radius: 2px;
+      transition: all 0.15s;
+    }
+    button:hover {
+      background: #e94560;
+      color: #1a1a2e;
+    }
+    #tooltip {
+      position: fixed;
+      background: rgba(0,0,0,0.85);
+      border: 1px solid #e94560;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      pointer-events: none;
+      display: none;
+      z-index: 100;
+      max-width: 200px;
+    }
+    #tooltip .name { color: #e94560; font-weight: bold; }
+    #tooltip .state { color: #aaa; }
+    #tooltip .task { color: #66aaff; }
+    .status-bar {
+      display: flex;
+      gap: 16px;
+      font-size: 11px;
+      color: #555;
+    }
+    .status-bar .agent {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #555;
+    }
+    .status-dot.working { background: #4ade80; }
+    .status-dot.idle { background: #fbbf24; }
+    .status-dot.sleeping { background: #818cf8; }
+    .status-dot.thinking { background: #f472b6; }
+    .status-dot.error { background: #ef4444; }
+    .status-dot.speaking { background: #22d3ee; }
+  </style>
+</head>
+<body>
+  <h1>Miniverse</h1>
+  <p class="subtitle">the anti-metaverse &mdash; a tiny pixel world for your AI agents</p>
+  <div id="miniverse-container"></div>
+  <div class="controls">
+    <button onclick="triggerIntercom()">Intercom</button>
+    <button onclick="cycleState('morty')">Cycle Morty</button>
+    <button onclick="cycleState('dexter')">Cycle Dexter</button>
+  </div>
+  <div class="status-bar" id="status-bar"></div>
+  <div id="tooltip">
+    <div class="name"></div>
+    <div class="state"></div>
+    <div class="task"></div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
