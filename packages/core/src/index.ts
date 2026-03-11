@@ -25,6 +25,10 @@ export interface MiniverseConfig {
   spriteSheets?: Record<string, SpriteSheetConfig>;
   sceneConfig?: SceneConfig;
   objects?: ObjectConfig[];
+  /** Sprite names to cycle through when auto-creating citizens for new agents */
+  defaultSprites?: string[];
+  /** Set to false to disable auto-creating citizens for unknown agents (default: true) */
+  autoSpawn?: boolean;
 }
 
 type MiniverseEvent = 'citizen:click' | 'object:click' | 'intercom';
@@ -44,6 +48,9 @@ export class Miniverse {
   private particleTimers: Map<string, number> = new Map();
   private typedLocations: TypedLocation[] = [];
   private reservation = new TileReservation();
+  /** Agent IDs currently being spawned (to avoid duplicate async addCitizen calls) */
+  private spawningAgents: Set<string> = new Set();
+  private autoSpawnIndex = 0;
 
   constructor(config: MiniverseConfig) {
     this.config = config;
@@ -498,44 +505,72 @@ export class Miniverse {
   private handleSignalUpdate(agents: AgentStatus[]) {
     for (const agent of agents) {
       const citizen = this.citizens.find(r => r.agentId === agent.id);
-      if (citizen) {
-        // NPCs drive their own state — skip signal overrides
-        if (citizen.isNpc) continue;
-
-        const prevState = citizen.state;
-        citizen.updateState(agent.state, agent.task, agent.energy);
-
-        // Handle state transitions with debouncing — rapid hook events
-        // (PreToolUse → PostToolUse → Stop) would otherwise cause citizens
-        // to constantly turn around before reaching their destination
-        if (prevState !== agent.state) {
-          const now = Date.now();
-          const lastTransition = this.lastTransitionTime.get(citizen.agentId) ?? 0;
-          const elapsed = now - lastTransition;
-
-          // Always allow: going to work, going offline, or citizen is standing still
-          // Debounce: everything else (don't interrupt a walk mid-path)
-          const shouldTransition =
-            elapsed >= Miniverse.TRANSITION_DEBOUNCE_MS
-            || agent.state === 'working'
-            || agent.state === 'offline'
-            || prevState === 'offline'
-            || !citizen.isMoving();
-
-          if (shouldTransition) {
-            this.handleStateTransition(citizen, prevState, agent.state);
-            this.lastTransitionTime.set(citizen.agentId, now);
-          }
+      if (!citizen) {
+        // Auto-spawn a citizen for this unknown agent
+        if (this.config.autoSpawn !== false
+          && agent.state !== 'offline'
+          && !this.spawningAgents.has(agent.id)) {
+          this.autoSpawnCitizen(agent);
         }
+        continue;
+      }
 
-        // Update monitor glow
-        for (const obj of this.objects) {
-          if (obj.config.type === 'monitor' && obj.config.id === `monitor_${agent.id}`) {
-            obj.setGlow(agent.state === 'working');
-          }
+      // NPCs drive their own state — skip signal overrides
+      if (citizen.isNpc) continue;
+
+      const prevState = citizen.state;
+      citizen.updateState(agent.state, agent.task, agent.energy);
+
+      // Handle state transitions with debouncing — rapid hook events
+      // (PreToolUse → PostToolUse → Stop) would otherwise cause citizens
+      // to constantly turn around before reaching their destination
+      if (prevState !== agent.state) {
+        const now = Date.now();
+        const lastTransition = this.lastTransitionTime.get(citizen.agentId) ?? 0;
+        const elapsed = now - lastTransition;
+
+        // Always allow: going to work, going offline, or citizen is standing still
+        // Debounce: everything else (don't interrupt a walk mid-path)
+        const shouldTransition =
+          elapsed >= Miniverse.TRANSITION_DEBOUNCE_MS
+          || agent.state === 'working'
+          || agent.state === 'offline'
+          || prevState === 'offline'
+          || !citizen.isMoving();
+
+        if (shouldTransition) {
+          this.handleStateTransition(citizen, prevState, agent.state);
+          this.lastTransitionTime.set(citizen.agentId, now);
+        }
+      }
+
+      // Update monitor glow
+      for (const obj of this.objects) {
+        if (obj.config.type === 'monitor' && obj.config.id === `monitor_${agent.id}`) {
+          obj.setGlow(agent.state === 'working');
         }
       }
     }
+  }
+
+  private autoSpawnCitizen(agent: AgentStatus) {
+    const sprites = this.config.defaultSprites ?? ['nova', 'rio', 'dexter', 'morty'];
+    const sprite = sprites[this.autoSpawnIndex % sprites.length];
+    this.autoSpawnIndex++;
+
+    // Pick a wander point as the spawn position, falling back to first available location
+    const wanderPoints = this.typedLocations.filter(l => l.type === 'wander');
+    const spawnLoc = wanderPoints[Math.floor(Math.random() * wanderPoints.length)]
+      ?? this.typedLocations[0];
+    const position = spawnLoc?.name ?? 'center';
+
+    this.spawningAgents.add(agent.id);
+    this.addCitizen({ agentId: agent.id, name: agent.name, sprite, position })
+      .then((citizen) => {
+        citizen.updateState(agent.state, agent.task, agent.energy);
+      })
+      .catch(() => { /* sprite load failed — agent just won't appear */ })
+      .finally(() => { this.spawningAgents.delete(agent.id); });
   }
 
   /** Returns anchor names assigned as home positions to other citizens */
