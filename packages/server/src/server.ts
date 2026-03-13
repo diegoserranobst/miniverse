@@ -635,7 +635,7 @@ export class MiniverseServer {
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({
         miniverse: true,
-        version: '0.2.6',
+        version: '0.2.8',
         agents: { online, total: agents.length },
         world: worldId ?? null,
         grid: world ? { cols: world.gridCols ?? 16, rows: world.gridRows ?? 12 } : null,
