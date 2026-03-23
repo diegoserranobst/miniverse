@@ -1,0 +1,219 @@
+{
+  "name": "redcumbre-nexus",
+  "description": "Cyberpunk command center for REDCUMBRE — neon-lit operations hub where AI agents work as digital operatives managing a multi-tenant SaaS empire. Dark industrial base with magenta/cyan neon accents, holographic displays, server racks, and a rain-streaked city skyline view.",
+  "gridCols": 20,
+  "gridRows": 16,
+  "textures": [
+    {
+      "id": "dark_circuit_floor",
+      "prompt": "straight top-down bird's eye view, seamless texture of dark matte black floor with faint embedded circuit board traces glowing cyan, subtle hexagonal grid pattern, cyberpunk, industrial, minimal glow",
+      "role": "floor"
+    },
+    {
+      "id": "neon_accent_floor",
+      "prompt": "straight top-down bird's eye view, seamless texture of dark floor tile with bright magenta neon strip running through center, cyberpunk aesthetic, dark concrete with glowing accent line",
+      "role": "accent_floor"
+    },
+    {
+      "id": "dark_metal_wall",
+      "prompt": "straight top-down bird's eye view, seamless texture of dark brushed steel wall panel with subtle rivets, faint cyan LED strip at bottom edge, industrial cyberpunk, matte dark grey-black",
+      "role": "wall"
+    },
+    {
+      "id": "neon_kanji_wall",
+      "prompt": "straight top-down bird's eye view, seamless texture of dark wall panel with a glowing magenta-pink neon sign showing abstract geometric shapes and data symbols, cyberpunk advertising aesthetic, dark background",
+      "role": "accent_wall"
+    },
+    {
+      "id": "rain_window_wall",
+      "prompt": "straight top-down bird's eye view, seamless texture of large dark window showing a rainy cyberpunk city skyline at night, neon lights reflecting in rain streaks, distant skyscrapers with holographic billboards, moody purple-blue atmosphere",
+      "role": "accent_wall"
+    }
+  ],
+  "props": [
+    {
+      "id": "holo_command_desk",
+      "prompt": "straight top-down bird's eye view, large L-shaped cyberpunk command desk, matte black surface with embedded cyan LED edge lighting, three floating holographic monitors showing data dashboards and terminal code, mechanical keyboard with RGB backlighting, sleek futuristic design",
+      "count": 2,
+      "w": 3.5,
+      "h": 2.5,
+      "layer": "below",
+      "anchorType": "work"
+    },
+    {
+      "id": "operator_chair",
+      "prompt": "straight top-down bird's eye view, high-tech ergonomic gaming-style chair, dark black frame with subtle magenta accent stitching, cyberpunk aesthetic, sleek armrests with small LED indicators",
+      "count": 4,
+      "w": 0.9,
+      "h": 0.9,
+      "layer": "above"
+    },
+    {
+      "id": "server_rack",
+      "prompt": "straight top-down bird's eye view, tall server rack cabinet with multiple blinking LED lights in cyan and green, dark metal frame, visible cable management, ventilation grills, data center equipment, cyberpunk industrial",
+      "count": 3,
+      "w": 1.5,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "holo_monitor_wall",
+      "prompt": "straight top-down bird's eye view, large wall-mounted array of six holographic screens showing real-time data feeds, network graphs, world maps with connection lines, financial charts, dark frame with cyan glow, cyberpunk operations center aesthetic",
+      "count": 1,
+      "w": 5,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "neon_logo_sign",
+      "prompt": "straight top-down bird's eye view, wall-mounted neon sign reading RC in bold geometric font, glowing magenta-pink with cyan outline, cyberpunk style, mounted on dark metal plate, subtle light bloom effect",
+      "count": 1,
+      "w": 2,
+      "h": 1.5,
+      "layer": "below"
+    },
+    {
+      "id": "standing_terminal",
+      "prompt": "straight top-down bird's eye view, standing terminal kiosk with single green-text monitor showing scrolling code, dark metal pedestal, small keyboard, retro-futuristic cyberpunk, industrial",
+      "count": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchorType": "work"
+    },
+    {
+      "id": "cyberpunk_couch",
+      "prompt": "straight top-down bird's eye view, low-profile modular couch, dark charcoal fabric with subtle magenta LED strip along base, minimalist cyberpunk design, angular shape",
+      "count": 1,
+      "w": 3,
+      "h": 1.5,
+      "layer": "below",
+      "anchorType": "rest"
+    },
+    {
+      "id": "coffee_synthesizer",
+      "prompt": "straight top-down bird's eye view, futuristic coffee machine with transparent tubes showing liquid flow, small holographic menu display, dark chrome body with cyan accent lights, cyberpunk appliance",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "mini_fridge_neon",
+      "prompt": "straight top-down bird's eye view, compact mini fridge with transparent door showing energy drink cans, internal cyan LED lighting, dark metal exterior, cyberpunk aesthetic",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "cable_bundle_floor",
+      "prompt": "straight top-down bird's eye view, bundle of organized network cables and fiber optic lines on dark floor, some glowing faintly cyan, cable ties, industrial cyberpunk detail",
+      "count": 4,
+      "w": 1,
+      "h": 0.5,
+      "layer": "below"
+    },
+    {
+      "id": "hologram_globe",
+      "prompt": "straight top-down bird's eye view, small round table with floating holographic globe projection showing network connection nodes across South America, cyan and magenta data points, subtle glow, cyberpunk",
+      "count": 1,
+      "w": 1.5,
+      "h": 1.5,
+      "layer": "below",
+      "anchorType": "social"
+    },
+    {
+      "id": "neon_floor_strip",
+      "prompt": "straight top-down bird's eye view, thin magenta neon light strip embedded in dark floor, glowing brightly, linear, cyberpunk accent lighting",
+      "count": 6,
+      "w": 1,
+      "h": 0.3,
+      "layer": "below"
+    },
+    {
+      "id": "weapon_rack_display",
+      "prompt": "straight top-down bird's eye view, wall-mounted glass display case showing decorative katana and cyberpunk memorabilia, dark frame with subtle blue LED backlighting, collector aesthetic",
+      "count": 1,
+      "w": 2,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "prompt": "straight top-down bird's eye view, small potted bonsai tree in dark matte planter, tree has subtle bioluminescent magenta-pink leaves, cyberpunk nature hybrid, small accent piece",
+      "count": 2,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "below"
+    },
+    {
+      "id": "drone_charging_pad",
+      "prompt": "straight top-down bird's eye view, small hexagonal drone charging pad on floor with docked mini surveillance drone, cyan LED ring, dark metal, cyberpunk tech",
+      "count": 1,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    }
+  ],
+  "layout": {
+    "floor": [
+      [2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 2, 2, 2, 3, 3, 3, 2],
+      [2, 2, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 2, 2, 2, 3, 3, 3, 2],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ],
+    "placements": [
+      {"propsIndex": 0, "x": 2, "y": 2},
+      {"propsIndex": 1, "x": 3, "y": 4.5},
+      {"propsIndex": 0, "x": 7, "y": 2},
+      {"propsIndex": 1, "x": 8, "y": 4.5},
+      {"propsIndex": 2, "x": 16, "y": 2},
+      {"propsIndex": 2, "x": 16, "y": 5},
+      {"propsIndex": 2, "x": 16, "y": 8},
+      {"propsIndex": 3, "x": 7, "y": 0},
+      {"propsIndex": 4, "x": 1, "y": 0},
+      {"propsIndex": 5, "x": 13, "y": 3},
+      {"propsIndex": 5, "x": 13, "y": 7},
+      {"propsIndex": 1, "x": 13.5, "y": 4.5},
+      {"propsIndex": 1, "x": 13.5, "y": 8.5},
+      {"propsIndex": 6, "x": 2, "y": 10},
+      {"propsIndex": 7, "x": 18, "y": 13},
+      {"propsIndex": 8, "x": 18, "y": 11},
+      {"propsIndex": 9, "x": 5, "y": 7},
+      {"propsIndex": 9, "x": 10, "y": 7},
+      {"propsIndex": 9, "x": 15, "y": 12},
+      {"propsIndex": 9, "x": 1, "y": 7},
+      {"propsIndex": 10, "x": 8, "y": 10},
+      {"propsIndex": 11, "x": 5, "y": 5},
+      {"propsIndex": 11, "x": 14, "y": 5},
+      {"propsIndex": 11, "x": 5, "y": 10},
+      {"propsIndex": 11, "x": 14, "y": 10},
+      {"propsIndex": 11, "x": 9, "y": 7.5},
+      {"propsIndex": 11, "x": 9, "y": 12},
+      {"propsIndex": 12, "x": 4, "y": 0.5},
+      {"propsIndex": 13, "x": 12, "y": 12},
+      {"propsIndex": 13, "x": 6, "y": 13},
+      {"propsIndex": 14, "x": 1, "y": 13}
+    ],
+    "wanderPoints": [
+      {"name": "wander_ops_center", "x": 9, "y": 6},
+      {"name": "wander_lounge", "x": 4, "y": 12},
+      {"name": "wander_servers", "x": 17, "y": 6},
+      {"name": "wander_entrance", "x": 10, "y": 14}
+    ]
+  }
+}

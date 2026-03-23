@@ -1,7 +1,8 @@
 import { Miniverse, PropSystem, Editor, createStandardSpriteConfig } from '@miniverse/core';
 import type { SceneConfig, SpriteSheetConfig, CitizenDef } from '@miniverse/core';
+import { connectSounds, createMuteButton, playSound } from './sounds';
 
-const WORLD_ID = 'cozy-startup';
+const WORLD_ID = 'redcumbre-nexus';
 const basePath = `/worlds/${WORLD_ID}`;
 
 function charSprites(name: string): SpriteSheetConfig {
@@ -70,7 +71,7 @@ async function main() {
 
   // Auto-discover agents from server and available sprites
   const availableSprites: string[] = await fetch('/api/citizens').then(r => r.json()).catch(() => ['morty', 'dexter', 'nova', 'rio']);
-  const serverAgents: { agent: string; name: string }[] = await fetch('http://localhost:4321/api/agents')
+  const serverAgents: { agent: string; name: string }[] = await fetch('http://localhost:25050/api/agents')
     .then(r => r.json())
     .then((d: any) => d.agents ?? [])
     .catch(() => []);
@@ -96,7 +97,7 @@ async function main() {
     scene: 'main',
     signal: {
       type: 'websocket',
-      url: 'ws://localhost:4321/ws',
+      url: 'ws://localhost:25050/ws',
     },
     citizens,
     scale: 2,
@@ -162,8 +163,14 @@ async function main() {
     if (editor.isActive()) syncProps();
   } });
 
+  // --- Sound system ---
+  connectSounds('ws://localhost:25050/ws');
+  const muteBtn = createMuteButton();
+  statusBar.parentElement!.insertBefore(muteBtn, statusBar.nextSibling);
+
   // --- Tooltip ---
   mv.on('citizen:click', (data: unknown) => {
+    playSound('click');
     const d = data as { name: string; state: string; task: string | null };
     tooltip.style.display = 'block';
     tooltip.querySelector('.name')!.textContent = d.name;
@@ -172,7 +179,7 @@ async function main() {
     setTimeout(() => { tooltip.style.display = 'none'; }, 3000);
   });
 
-  container.addEventListener('mousemove', (e) => {
+  container.addEventListener('mousemove', (e: MouseEvent) => {
     tooltip.style.left = e.clientX + 12 + 'px';
     tooltip.style.top = e.clientY + 12 + 'px';
   });
