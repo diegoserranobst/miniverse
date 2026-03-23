@@ -6,12 +6,12 @@
   "textures": [
     {
       "id": "dark_circuit_floor",
-      "prompt": "straight top-down bird's eye view, seamless texture of dark matte black floor with faint embedded circuit board traces glowing cyan, subtle hexagonal grid pattern, cyberpunk, industrial, minimal glow",
+      "prompt": "straight top-down bird's eye view, seamless texture of medium grey polished concrete floor with faint embedded circuit board traces glowing cyan, subtle hexagonal grid pattern, cyberpunk, industrial, light grey base tone, NOT dark, bright enough to see objects on top",
       "role": "floor"
     },
     {
       "id": "neon_accent_floor",
-      "prompt": "straight top-down bird's eye view, seamless texture of dark floor tile with bright magenta neon strip running through center, cyberpunk aesthetic, dark concrete with glowing accent line",
+      "prompt": "straight top-down bird's eye view, seamless texture of medium grey concrete floor tile with bright magenta neon strip running through center, cyberpunk aesthetic, light grey concrete base with glowing accent line, NOT dark",
       "role": "accent_floor"
     },
     {

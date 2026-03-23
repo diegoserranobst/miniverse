@@ -706,14 +706,5 @@
     "dark_metal_wall": "world_assets/tiles/dark_metal_wall.png",
     "neon_kanji_wall": "world_assets/tiles/neon_kanji_wall.png",
     "rain_window_wall": "world_assets/tiles/rain_window_wall.png"
-  },
-  "citizens": [
-    {
-      "agentId": "rcapi-claude",
-      "name": "rCAPI Claude",
-      "sprite": "rCAPI Claude",
-      "position": "wander_lounge",
-      "type": "agent"
-    }
-  ]
+  }
 }
