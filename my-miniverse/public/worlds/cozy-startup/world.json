@@ -495,35 +495,421 @@
     }
   ],
   "propImages": {
-    "wooden_desk_single": "/world_assets/props/prop_0_wooden_desk_single.png",
-    "ergonomic_chair": "/world_assets/props/prop_1_ergonomic_chair.png",
-    "tall_potted_plant": "/world_assets/props/prop_2_tall_potted_plant.png",
-    "bookshelf_packed": "/world_assets/props/prop_3_bookshelf_packed.png",
-    "coffee_bar_counter": "/world_assets/props/prop_4_coffee_bar_counter.png",
-    "espresso_machine": "/world_assets/props/prop_5_espresso_machine.png",
-    "mini_fridge": "/world_assets/props/prop_6_mini_fridge.png",
-    "low_coffee_table": "/world_assets/props/prop_9_low_coffee_table.png",
-    "wooden_framed_whiteboard": "/world_assets/props/prop_11_wooden_framed_whiteboard.png",
-    "large_window": "/world_assets/props/prop_10_large_window.png",
-    "area_rug_lounge": "/world_assets/props/prop_12_area_rug_lounge.png",
-    "greek_column": "/world_assets/props/prop_0_greek_column.png",
-    "marble_statue": "/world_assets/props/prop_1_marble_statue.png",
-    "bean_bag_chair_dark": "/world_assets/props/prop_7_bean_bag_chair_dark.png",
-    "water_fountain": "/world_assets/props/prop_2_water_fountain.png",
-    "olive_tree": "/world_assets/props/prop_3_olive_tree.png",
-    "amphora": "/world_assets/props/prop_4_amphora.png",
-    "bean_bag_chair_light": "/world_assets/props/prop_8_bean_bag_chair_light.png",
-    "garland": "/world_assets/props/prop_5_garland.png"
+    "wooden_desk_single": "world_assets/props/prop_0_wooden_desk_single.png",
+    "ergonomic_chair": "world_assets/props/prop_1_ergonomic_chair.png",
+    "coffee_bar_counter": "world_assets/props/prop_4_coffee_bar_counter.png",
+    "bookshelf_packed": "world_assets/props/prop_3_bookshelf_packed.png",
+    "tall_potted_plant": "world_assets/props/prop_2_tall_potted_plant.png",
+    "espresso_machine": "world_assets/props/prop_5_espresso_machine.png",
+    "mini_fridge": "world_assets/props/prop_6_mini_fridge.png",
+    "low_coffee_table": "world_assets/props/prop_9_low_coffee_table.png",
+    "greek_column": "world_assets/props/prop_0_greek_column.png",
+    "marble_statue": "world_assets/props/prop_1_marble_statue.png",
+    "wooden_framed_whiteboard": "world_assets/props/prop_11_wooden_framed_whiteboard.png",
+    "water_fountain": "world_assets/props/prop_2_water_fountain.png",
+    "olive_tree": "world_assets/props/prop_3_olive_tree.png",
+    "large_window": "world_assets/props/prop_10_large_window.png",
+    "amphora": "world_assets/props/prop_4_amphora.png",
+    "area_rug_lounge": "world_assets/props/prop_12_area_rug_lounge.png",
+    "garland": "world_assets/props/prop_5_garland.png",
+    "bean_bag_chair_dark": "world_assets/props/prop_7_bean_bag_chair_dark.png",
+    "bean_bag_chair_light": "world_assets/props/prop_8_bean_bag_chair_light.png"
   },
   "tiles": {
-    "main_floor": "/world_assets/tiles/main_floor.png",
-    "exposed_brick_wall": "/world_assets/tiles/exposed_brick_wall.png",
-    "concrete_accent": "/world_assets/tiles/concrete_accent.png",
-    "tileset": "/world_assets/tiles/tileset.png",
-    "white_marble": "/world_assets/tiles/white_marble.png",
-    "gold_mosaic": "/world_assets/tiles/gold_mosaic.png",
-    "dark_marble": "/world_assets/tiles/dark_marble.png",
-    "pillar_base": "/world_assets/tiles/pillar_base.png"
+    "main_floor": "world_assets/tiles/main_floor.png",
+    "exposed_brick_wall": "world_assets/tiles/exposed_brick_wall.png",
+    "concrete_accent": "world_assets/tiles/concrete_accent.png",
+    "tileset": "world_assets/tiles/tileset.png",
+    "white_marble": "world_assets/tiles/white_marble.png",
+    "gold_mosaic": "world_assets/tiles/gold_mosaic.png",
+    "dark_marble": "world_assets/tiles/dark_marble.png",
+    "pillar_base": "world_assets/tiles/pillar_base.png"
   },
-  "citizens": []
+  "citizens": [
+    {
+      "agentId": "rcapi-claude",
+      "name": "rCAPI Claude",
+      "sprite": "rCAPI Claude",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-gajo60",
+      "name": "rcapi-claude-sub-gajo60",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-eq6tio",
+      "name": "rcapi-claude-sub-eq6tio",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-mivr8h",
+      "name": "rcapi-claude-sub-mivr8h",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_garden",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-1kh0wf",
+      "name": "rcapi-claude-sub-1kh0wf",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-ei1kn8",
+      "name": "rcapi-claude-sub-ei1kn8",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-rlhgjb",
+      "name": "rcapi-claude-sub-rlhgjb",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-v6w5nw",
+      "name": "rcapi-claude-sub-v6w5nw",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-8rswg5",
+      "name": "rcapi-claude-sub-8rswg5",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-l9hrfn",
+      "name": "rcapi-claude-sub-l9hrfn",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-lwgjr4",
+      "name": "rcapi-claude-sub-lwgjr4",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-dnth6v",
+      "name": "rcapi-claude-sub-dnth6v",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-k3osxe",
+      "name": "rcapi-claude-sub-k3osxe",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-76qcd9",
+      "name": "rcapi-claude-sub-76qcd9",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-nrf6es",
+      "name": "rcapi-claude-sub-nrf6es",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-dh2esf",
+      "name": "rcapi-claude-sub-dh2esf",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-x8u92r",
+      "name": "rcapi-claude-sub-x8u92r",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-3x00u3",
+      "name": "rcapi-claude-sub-3x00u3",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-q7og9h",
+      "name": "rcapi-claude-sub-q7og9h",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-rmkuvu",
+      "name": "rcapi-claude-sub-rmkuvu",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-jguv95",
+      "name": "rcapi-claude-sub-jguv95",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-mlt25g",
+      "name": "rcapi-claude-sub-mlt25g",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-tk57hg",
+      "name": "rcapi-claude-sub-tk57hg",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-qchhdw",
+      "name": "rcapi-claude-sub-qchhdw",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-wxuchd",
+      "name": "rcapi-claude-sub-wxuchd",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-7562dz",
+      "name": "rcapi-claude-sub-7562dz",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-odt6m1",
+      "name": "rcapi-claude-sub-odt6m1",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-fdca0v",
+      "name": "rcapi-claude-sub-fdca0v",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-hslwce",
+      "name": "rcapi-claude-sub-hslwce",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-dpv0kw",
+      "name": "rcapi-claude-sub-dpv0kw",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-0hoxa7",
+      "name": "rcapi-claude-sub-0hoxa7",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-eq9tq1",
+      "name": "rcapi-claude-sub-eq9tq1",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-5vaypz",
+      "name": "rcapi-claude-sub-5vaypz",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-ww2xqj",
+      "name": "rcapi-claude-sub-ww2xqj",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-1rv542",
+      "name": "rcapi-claude-sub-1rv542",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-ybbw4p",
+      "name": "rcapi-claude-sub-ybbw4p",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-a73vy6",
+      "name": "rcapi-claude-sub-a73vy6",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-8f78i4",
+      "name": "rcapi-claude-sub-8f78i4",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-fkw1w4",
+      "name": "rcapi-claude-sub-fkw1w4",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_garden",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-ioj9fe",
+      "name": "rcapi-claude-sub-ioj9fe",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-qg6swp",
+      "name": "rcapi-claude-sub-qg6swp",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-9za92p",
+      "name": "rcapi-claude-sub-9za92p",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_right_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-0uk1go",
+      "name": "rcapi-claude-sub-0uk1go",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-668wcj",
+      "name": "rcapi-claude-sub-668wcj",
+      "sprite": "Claude (sub of dolibarr_ayj)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-0condm",
+      "name": "rcapi-claude-sub-0condm",
+      "sprite": "Claude (sub of dolibarr_ayj)",
+      "position": "wander_garden",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-c9aykd",
+      "name": "rcapi-claude-sub-c9aykd",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-ytxzup",
+      "name": "rcapi-claude-sub-ytxzup",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-w99vbl",
+      "name": "rcapi-claude-sub-w99vbl",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_garden",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-p2t96x",
+      "name": "rcapi-claude-sub-p2t96x",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_garden",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-z9i4sz",
+      "name": "rcapi-claude-sub-z9i4sz",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_entrance",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-ns9f75",
+      "name": "rcapi-claude-sub-ns9f75",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_fountain",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-5m14ls",
+      "name": "rcapi-claude-sub-5m14ls",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-iso041",
+      "name": "rcapi-claude-sub-iso041",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-ol7ucv",
+      "name": "rcapi-claude-sub-ol7ucv",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_garden",
+      "type": "agent"
+    },
+    {
+      "agentId": "rcapi-claude-sub-c3fbz0",
+      "name": "rcapi-claude-sub-c3fbz0",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_left_colonnade",
+      "type": "agent"
+    }
+  ]
 }
