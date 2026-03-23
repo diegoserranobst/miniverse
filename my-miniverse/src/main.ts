@@ -179,7 +179,7 @@ async function main() {
     setTimeout(() => { tooltip.style.display = 'none'; }, 3000);
   });
 
-  container.addEventListener('mousemove', (e: MouseEvent) => {
+  container.addEventListener('mousemove', (e) => {
     tooltip.style.left = e.clientX + 12 + 'px';
     tooltip.style.top = e.clientY + 12 + 'px';
   });
