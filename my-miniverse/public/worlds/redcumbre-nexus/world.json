@@ -777,13 +777,13 @@
   ],
   "propImages": {
     "holo_command_desk": "world_assets/props/prop_0_holo_command_desk.png",
-    "operator_chair": "world_assets/props/prop_1_operator_chair.png",
-    "server_rack": "world_assets/props/prop_2_server_rack.png",
     "holo_monitor_wall": "world_assets/props/prop_3_holo_monitor_wall.png",
+    "server_rack": "world_assets/props/prop_2_server_rack.png",
+    "operator_chair": "world_assets/props/prop_1_operator_chair.png",
     "neon_logo_sign": "world_assets/props/prop_4_neon_logo_sign.png",
     "standing_terminal": "world_assets/props/prop_5_standing_terminal.png",
-    "cyberpunk_couch": "world_assets/props/prop_6_cyberpunk_couch.png",
     "coffee_synthesizer": "world_assets/props/prop_7_coffee_synthesizer.png",
+    "cyberpunk_couch": "world_assets/props/prop_6_cyberpunk_couch.png",
     "mini_fridge_neon": "world_assets/props/prop_8_mini_fridge_neon.png",
     "cable_bundle_floor": "world_assets/props/prop_9_cable_bundle_floor.png",
     "hologram_globe": "world_assets/props/prop_10_hologram_globe.png",
@@ -798,5 +798,14 @@
     "dark_metal_wall": "world_assets/tiles/dark_metal_wall.png",
     "neon_kanji_wall": "world_assets/tiles/neon_kanji_wall.png",
     "rain_window_wall": "world_assets/tiles/rain_window_wall.png"
-  }
+  },
+  "citizens": [
+    {
+      "agentId": "rcapi-claude",
+      "name": "rCAPI Claude",
+      "sprite": "rCAPI Claude",
+      "position": "wander_servers",
+      "type": "agent"
+    }
+  ]
 }

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently -n vite,server -c cyan,magenta \"vite --port 25051\" \"miniverse --port 25050 --no-browser\"",
+    "dev": "concurrently -n vite,server -c cyan,magenta \"vite --port 25051 --host 0.0.0.0\" \"miniverse --port 25050 --host 0.0.0.0 --no-browser\"",
     "build": "vite build",
     "preview": "vite preview",
     "server": "miniverse"

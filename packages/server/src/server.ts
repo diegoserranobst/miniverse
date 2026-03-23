@@ -456,6 +456,9 @@ export class MiniverseServer {
   /** Track sub-agent keepalives so we can clean them up with the parent */
   private subagentKeepAlives: Map<string, Set<string>> = new Map();
 
+  /** Track first prompt per agent to use as display name */
+  private agentFirstPrompt: Map<string, string> = new Map();
+
   private handleClaudeCodeHook(data: Record<string, unknown>) {
     const event = data.hook_event_name as string | undefined;
     if (!event) return;
@@ -468,11 +471,22 @@ export class MiniverseServer {
 
     const agentId = (data as any).agent
       ?? (shortSession ? `claude-${folder}-${shortSession}` : `claude-${folder}`);
-    const agentName = (data as any).name
-      ?? (shortSession ? `Claude (${folder} #${shortSession})` : `Claude (${folder})`);
 
     const toolName = data.tool_name as string | undefined;
     const prompt = data.prompt as string | undefined;
+
+    // Use first prompt as agent name (mimics VSCode tab title)
+    if (event === 'UserPromptSubmit' && prompt && !this.agentFirstPrompt.has(agentId)) {
+      // Strip IDE tags like <ide_opened_file>...</ide_opened_file>
+      const cleanPrompt = prompt.replace(/<[^>]+>[^<]*<\/[^>]+>\s*/g, '').trim();
+      if (cleanPrompt) {
+        this.agentFirstPrompt.set(agentId, truncate(cleanPrompt, 30));
+      }
+    }
+
+    const agentName = (data as any).name
+      ?? this.agentFirstPrompt.get(agentId)
+      ?? (shortSession ? `Claude (${folder} #${shortSession})` : `Claude (${folder})`);
 
     // Sub-agent fields
     const subagentId = data.subagent_id as string | undefined;
@@ -575,6 +589,7 @@ export class MiniverseServer {
           }
           this.subagentKeepAlives.delete(agentId);
         }
+        this.agentFirstPrompt.delete(agentId);
         break;
       }
     }
