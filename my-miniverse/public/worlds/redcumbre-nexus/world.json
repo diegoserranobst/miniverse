@@ -410,7 +410,15 @@
       "y": 2,
       "w": 1.5,
       "h": 2,
-      "layer": "below"
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "server_rack_4_0",
+          "ox": 0.75,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
     },
     {
       "id": "server_rack",
@@ -418,7 +426,15 @@
       "y": 5,
       "w": 1.5,
       "h": 2,
-      "layer": "below"
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "server_rack_5_0",
+          "ox": 0.75,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
     },
     {
       "id": "server_rack",
@@ -426,7 +442,15 @@
       "y": 8,
       "w": 1.5,
       "h": 2,
-      "layer": "below"
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "server_rack_6_0",
+          "ox": 0.75,
+          "oy": 2,
+          "type": "work"
+        }
+      ]
     },
     {
       "id": "holo_monitor_wall",
@@ -681,6 +705,26 @@
       "name": "wander_entrance",
       "x": 10,
       "y": 14
+    },
+    {
+      "name": "wander_corridor_left",
+      "x": 3,
+      "y": 8
+    },
+    {
+      "name": "wander_corridor_right",
+      "x": 14,
+      "y": 12
+    },
+    {
+      "name": "wander_coffee_area",
+      "x": 17,
+      "y": 13
+    },
+    {
+      "name": "wander_globe",
+      "x": 8,
+      "y": 12
     }
   ],
   "propImages": {
