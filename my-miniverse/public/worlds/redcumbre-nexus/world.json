@@ -367,7 +367,7 @@
         {
           "name": "holo_command_desk_0_0",
           "ox": 1,
-          "oy": 2,
+          "oy": 2.5,
           "type": "work"
         }
       ]
@@ -391,7 +391,7 @@
         {
           "name": "holo_command_desk_2_0",
           "ox": 1,
-          "oy": 2,
+          "oy": 2.5,
           "type": "work"
         }
       ]
@@ -478,8 +478,8 @@
       "anchors": [
         {
           "name": "standing_terminal_9_0",
-          "ox": 1,
-          "oy": 2,
+          "ox": 0.5,
+          "oy": 1.5,
           "type": "work"
         }
       ]
@@ -494,8 +494,8 @@
       "anchors": [
         {
           "name": "standing_terminal_10_0",
-          "ox": 1,
-          "oy": 2,
+          "ox": 0.5,
+          "oy": 1.5,
           "type": "work"
         }
       ]
@@ -527,7 +527,7 @@
         {
           "name": "holo_command_desk_extra_0",
           "ox": 1,
-          "oy": 2,
+          "oy": 2.5,
           "type": "work"
         }
       ]
@@ -551,7 +551,7 @@
         {
           "name": "holo_command_desk_extra_1",
           "ox": 1,
-          "oy": 2,
+          "oy": 2.5,
           "type": "work"
         }
       ]

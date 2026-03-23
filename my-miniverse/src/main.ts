@@ -2,7 +2,7 @@ import { Miniverse, PropSystem, Editor, createStandardSpriteConfig } from '@mini
 import type { SceneConfig, SpriteSheetConfig, CitizenDef } from '@miniverse/core';
 import { connectSounds, createMuteButton, playSound } from './sounds';
 
-const WORLD_ID = 'redcumbre-nexus';
+const WORLD_ID = 'ocean-lab';
 const basePath = `/worlds/${WORLD_ID}`;
 
 function charSprites(name: string): SpriteSheetConfig {
