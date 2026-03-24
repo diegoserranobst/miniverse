@@ -456,8 +456,65 @@ export class MiniverseServer {
   /** Track sub-agent keepalives so we can clean them up with the parent */
   private subagentKeepAlives: Map<string, Set<string>> = new Map();
 
+  /** Build a descriptive task string from tool_name + tool_input */
+  private describeToolUse(tool: string | undefined, input: Record<string, unknown> | undefined): string {
+    if (!tool) return 'Using tool';
+    if (!input) return tool;
+
+    switch (tool) {
+      case 'Read': {
+        const fp = input.file_path as string | undefined;
+        if (!fp) return 'Read';
+        const file = fp.split('/').pop() || fp;
+        const offset = input.offset as number | undefined;
+        const limit = input.limit as number | undefined;
+        if (offset && limit) return truncate(`Read ${file} (lines ${offset}-${offset + limit})`, 50);
+        return truncate(`Read ${file}`, 50);
+      }
+      case 'Edit': {
+        const fp = input.file_path as string | undefined;
+        return truncate(`Edit ${fp?.split('/').pop() || ''}`, 50);
+      }
+      case 'Write': {
+        const fp = input.file_path as string | undefined;
+        return truncate(`Write ${fp?.split('/').pop() || ''}`, 50);
+      }
+      case 'Bash': {
+        const desc = input.description as string | undefined;
+        const cmd = input.command as string | undefined;
+        return truncate(`Bash ${desc || cmd || ''}`, 50);
+      }
+      case 'Glob': {
+        const pattern = input.pattern as string | undefined;
+        return truncate(`Glob ${pattern || ''}`, 50);
+      }
+      case 'Grep': {
+        const pattern = input.pattern as string | undefined;
+        return truncate(`Grep ${pattern || ''}`, 50);
+      }
+      case 'Agent': {
+        const desc = input.description as string | undefined;
+        return truncate(`Agent: ${desc || ''}`, 50);
+      }
+      case 'Skill': {
+        const skill = input.skill as string | undefined;
+        return truncate(`Skill: ${skill || ''}`, 50);
+      }
+      case 'WebSearch': {
+        const query = input.query as string | undefined;
+        return truncate(`Search: ${query || ''}`, 50);
+      }
+      default:
+        return tool;
+    }
+  }
+
   /** Track first prompt per agent to use as display name */
   private agentFirstPrompt: Map<string, string> = new Map();
+  /** Map subagent session-derived IDs to their SubagentStart-assigned IDs */
+  private subagentSessionMap: Map<string, string> = new Map();
+  /** Queue of unmatched sub-agent IDs waiting for their first event (FIFO per parent) */
+  private unmatchedSubagents: string[] = [];
 
   private handleClaudeCodeHook(data: Record<string, unknown>) {
     const event = data.hook_event_name as string | undefined;
@@ -469,10 +526,26 @@ export class MiniverseServer {
     const folder = (cwd ?? '').split('/').pop() || 'code';
     const shortSession = sessionId ? sessionId.slice(0, 6) : '';
 
-    const agentId = (data as any).agent
+    let agentId = (data as any).agent
       ?? (shortSession ? `claude-${folder}-${shortSession}` : `claude-${folder}`);
 
+    // Resolve subagent/teammate session IDs to their SubagentStart-assigned IDs
+    const resolvedId = this.subagentSessionMap.get(agentId);
+    if (resolvedId) {
+      agentId = resolvedId;
+    } else if (event !== 'SubagentStart' && event !== 'SubagentStop' && event !== 'SessionStart') {
+      const existsInStore = this.store.getAll().some(a => a.agent === agentId);
+      if (!existsInStore && this.unmatchedSubagents.length > 0) {
+        // Unknown agent sending events — likely a subagent/teammate with its own session
+        // Match to the oldest unmatched sub-agent (FIFO)
+        const matchedSubId = this.unmatchedSubagents.shift()!;
+        this.subagentSessionMap.set(agentId, matchedSubId);
+        agentId = matchedSubId;
+      }
+    }
+
     const toolName = data.tool_name as string | undefined;
+    const toolInput = data.tool_input as Record<string, unknown> | undefined;
     const prompt = data.prompt as string | undefined;
 
     // Use first prompt as agent name (mimics VSCode tab title)
@@ -511,21 +584,21 @@ export class MiniverseServer {
       case 'PreToolUse':
         this.store.heartbeat({
           agent: agentId, name: agentName, state: 'working',
-          task: toolName ?? 'Using tool',
+          task: this.describeToolUse(toolName, toolInput),
         });
         break;
 
       case 'PostToolUse':
         this.store.heartbeat({
           agent: agentId, name: agentName, state: 'working',
-          task: toolName ? `Done: ${toolName}` : 'Tool complete',
+          task: `Done: ${this.describeToolUse(toolName, toolInput)}`,
         });
         break;
 
       case 'PostToolUseFailure':
         this.store.heartbeat({
           agent: agentId, name: agentName, state: 'error',
-          task: toolName ? `Failed: ${toolName}` : 'Tool failed',
+          task: `Failed: ${this.describeToolUse(toolName, toolInput)}`,
         });
         this.events.push(agentId, { type: 'status', state: 'error' });
         break;
@@ -541,10 +614,12 @@ export class MiniverseServer {
           ? `${agentId}-sub-${subagentId.slice(0, 6)}`
           : `${agentId}-sub-${Math.random().toString(36).slice(2, 8)}`;
         const subName = subagentTask
-          ? `Claude (${truncate(subagentTask, 20)})`
+          ? truncate(subagentTask, 30)
           : `Claude (sub of ${folder})`;
-        this.store.heartbeat({ agent: subId, name: subName, state: 'working', task: subagentTask ?? 'Running' });
+        this.store.heartbeat({ agent: subId, name: subName, state: 'working', task: subagentTask ?? 'Starting...' });
         this.startKeepalive(subId, subName);
+        // Add to unmatched queue so the subagent's own events get routed here
+        this.unmatchedSubagents.push(subId);
         // Track sub-agent under parent so we can clean up on SessionEnd
         if (!this.subagentKeepAlives.has(agentId)) this.subagentKeepAlives.set(agentId, new Set());
         this.subagentKeepAlives.get(agentId)!.add(subId);
@@ -590,6 +665,13 @@ export class MiniverseServer {
           this.subagentKeepAlives.delete(agentId);
         }
         this.agentFirstPrompt.delete(agentId);
+        // Clean up subagent session mappings and unmatched queue
+        for (const [sessionId, mappedId] of this.subagentSessionMap) {
+          if (mappedId === agentId || mappedId.startsWith(agentId)) {
+            this.subagentSessionMap.delete(sessionId);
+          }
+        }
+        this.unmatchedSubagents = this.unmatchedSubagents.filter(id => !id.startsWith(agentId));
         break;
       }
     }

@@ -98,6 +98,10 @@ export class AgentStore {
         agent.state = 'offline';
         agent.task = null;
         changed = true;
+      } else if (agent.state === 'offline' && elapsed > this.offlineTimeout * 4) {
+        // Remove offline agents after extended period to prevent accumulation
+        this.agents.delete(id);
+        changed = true;
       }
     }
 
