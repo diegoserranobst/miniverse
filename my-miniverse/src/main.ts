@@ -4,6 +4,8 @@ import { connectSounds, createMuteButton, playSound } from './sounds';
 
 const WORLD_ID = 'redcumbre-nexus';
 const basePath = `/worlds/${WORLD_ID}`;
+const API_BASE = `${window.location.protocol}//${window.location.hostname}:25050`;
+const WS_BASE = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.hostname}:25050`;
 
 function charSprites(name: string): SpriteSheetConfig {
   return {
@@ -71,7 +73,7 @@ async function main() {
 
   // Auto-discover agents from server and available sprites
   const availableSprites: string[] = await fetch('/api/citizens').then(r => r.json()).catch(() => ['morty', 'dexter', 'nova', 'rio']);
-  const serverAgents: { agent: string; name: string }[] = await fetch('http://localhost:25050/api/agents')
+  const serverAgents: { agent: string; name: string }[] = await fetch(`${API_BASE}/api/agents`)
     .then(r => r.json())
     .then((d: any) => d.agents ?? [])
     .catch(() => []);
@@ -97,7 +99,7 @@ async function main() {
     scene: 'main',
     signal: {
       type: 'websocket',
-      url: 'ws://localhost:25050/ws',
+      url: `${WS_BASE}/ws`,
     },
     citizens,
     scale: 2,
@@ -164,7 +166,7 @@ async function main() {
   } });
 
   // --- Sound system ---
-  connectSounds('ws://localhost:25050/ws');
+  connectSounds(`${WS_BASE}/ws`);
   const muteBtn = createMuteButton();
   statusBar.parentElement!.insertBefore(muteBtn, statusBar.nextSibling);
 
