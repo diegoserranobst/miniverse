@@ -166,6 +166,9 @@ export class Citizen {
     return this.pathIndex < this.path.length;
   }
 
+  /** Pending anchor navigation request — fulfilled on next update() when pathfinder is available */
+  private pendingAnchorType: string | null = null;
+
   updateState(state: AgentState, task: string | null, energy: number) {
     const prevState = this.state;
     this.state = state;
@@ -176,6 +179,21 @@ export class Citizen {
     if (prevState !== state && !this.isMoving()) {
       const anim = STATE_ANIMATION_MAP[state] ?? 'idle_down';
       this.animator.play(anim);
+    }
+
+    // Schedule navigation to the appropriate anchor on next update()
+    if (prevState !== state) {
+      if (state === 'working' || state === 'thinking') {
+        this.pendingAnchorType = 'work';
+      } else if (state === 'sleeping') {
+        this.pendingAnchorType = 'rest';
+      } else if (state === 'speaking' || state === 'collaborating') {
+        this.pendingAnchorType = 'social';
+      } else if (state === 'idle' || state === 'waiting') {
+        this.pendingAnchorType = 'wander';
+      } else {
+        this.pendingAnchorType = null;
+      }
     }
   }
 
@@ -195,6 +213,18 @@ export class Citizen {
     reservation?: TileReservation,
     excludeNames?: Set<string>,
   ) {
+    // Fulfill pending anchor navigation from state change
+    if (this.pendingAnchorType && !this.isMoving() && typedLocations && typedLocations.length > 0) {
+      const target = this.pendingAnchorType;
+      this.pendingAnchorType = null;
+      if (target === 'wander') {
+        // Pick a random wander/rest/social point
+        this.idleBehaviorTimer = this.idleBehaviorInterval;
+      } else {
+        this.goToAnchorType(target as AnchorType, typedLocations, pathfinder, reservation, excludeNames);
+      }
+    }
+
     // NPC auto-behavior: cycle through phases
     if (this.isNpc && !this.isMoving()) {
       this.updateNpcPhase(delta, pathfinder, typedLocations, reservation, excludeNames);

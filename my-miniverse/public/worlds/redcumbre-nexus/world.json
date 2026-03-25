@@ -19,9 +19,9 @@
     ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"]
   ],
   "props": [
-    {"id":"neon_logo_sign","x":1,"y":0,"w":2,"h":1.5,"layer":"below"},
-    {"id":"weapon_rack_display","x":4,"y":0.5,"w":2,"h":1,"layer":"below"},
-    {"id":"holo_monitor_wall","x":6,"y":0,"w":5,"h":2,"layer":"below"},
+    {"id":"redcumbre_logo","x":1,"y":0,"w":4,"h":2,"layer":"below"},
+    {"id":"weapon_rack_display","x":6,"y":0.5,"w":2,"h":1,"layer":"below"},
+    {"id":"holo_monitor_wall","x":9,"y":0,"w":5,"h":2,"layer":"below"},
 
     {"id":"standing_terminal","x":1,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w1","ox":0.5,"oy":1.5,"type":"work"}]},
     {"id":"standing_terminal","x":3,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w2","ox":0.5,"oy":1.5,"type":"work"}]},
@@ -64,6 +64,7 @@
     "server_rack": "world_assets/props/prop_2_server_rack.png",
     "operator_chair": "world_assets/props/prop_1_operator_chair.png",
     "neon_logo_sign": "world_assets/props/prop_4_neon_logo_sign.png",
+    "redcumbre_logo": "world_assets/props/redcumbre_logo.png",
     "standing_terminal": "world_assets/props/prop_5_standing_terminal.png",
     "coffee_synthesizer": "world_assets/props/prop_7_coffee_synthesizer.png",
     "cyberpunk_couch": "world_assets/props/prop_6_cyberpunk_couch.png",
