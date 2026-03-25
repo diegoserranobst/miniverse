@@ -88,9 +88,8 @@ export class Renderer {
   }
 
   screenToWorld(screenX: number, screenY: number): { x: number; y: number } {
-    const rect = this.canvas.getBoundingClientRect();
-    const canvasX = (screenX - rect.left) / this.scale;
-    const canvasY = (screenY - rect.top) / this.scale;
+    const canvasX = screenX / this.scale;
+    const canvasY = screenY / this.scale;
     return this.camera.screenToWorld(canvasX, canvasY);
   }
 }

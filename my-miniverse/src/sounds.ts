@@ -6,7 +6,7 @@
  * Archivo separado del core de miniverse para sobrevivir actualizaciones.
  */
 
-type SoundName = 'arrive' | 'working' | 'thinking' | 'error' | 'success' | 'leave' | 'click' | 'subagent';
+type SoundName = 'arrive' | 'working' | 'thinking' | 'error' | 'success' | 'leave' | 'click' | 'subagent' | 'sleeping' | 'idle' | 'collaborating' | 'waiting';
 
 let audioCtx: AudioContext | null = null;
 let muted = localStorage.getItem('miniverse-muted') === 'true';
@@ -57,6 +57,10 @@ const sounds: Record<SoundName, () => void> = {
   leave: () => playSequence([[659, 0.08], [554, 0.08], [440, 0.12]], 'square', 0.05),
   click: () => playTone(880, 0.03, 'square', 0.04),
   subagent: () => playSequence([[392, 0.06], [523, 0.06], [659, 0.08]], 'triangle', 0.05),
+  sleeping: () => playSequence([[330, 0.1], [262, 0.1], [196, 0.15]], 'sine', 0.04),
+  idle: () => playTone(262, 0.08, 'sine', 0.03),
+  collaborating: () => playSequence([[440, 0.05], [523, 0.05], [440, 0.05], [523, 0.08]], 'triangle', 0.04),
+  waiting: () => playSequence([[294, 0.08], [294, 0.12]], 'sine', 0.03),
 };
 
 export function playSound(name: SoundName) {
@@ -97,6 +101,10 @@ export function connectSounds(wsUrl: string) {
             if (curr === 'thinking') { playSound('thinking'); continue; }
             if (curr === 'error') { playSound('error'); continue; }
             if (curr === 'speaking') { playSound('success'); continue; }
+            if (curr === 'sleeping') { playSound('sleeping'); continue; }
+            if (curr === 'idle') { playSound('idle'); continue; }
+            if (curr === 'collaborating') { playSound('collaborating'); continue; }
+            if (curr === 'waiting') { playSound('waiting'); continue; }
           }
         }
         if (msg.type === 'event' && msg.event) {

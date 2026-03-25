@@ -546,7 +546,7 @@ export class Citizen {
     const sepX = this.isAnchored() ? 0 : this.separationX;
     const sepY = this.isAnchored() ? 0 : this.separationY;
     const drawX = this.x + (this.tileWidth - this.frameWidth) / 2 + sepX;
-    const drawY = this.y + (this.tileHeight - this.frameHeight) + sepY;
+    const drawY = this.y + (this.tileHeight - this.frameHeight) - this.getSittingOffset() + sepY;
     return (
       px >= drawX &&
       px <= drawX + this.frameWidth &&

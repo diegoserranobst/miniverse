@@ -706,8 +706,14 @@ export class Miniverse {
   private handleClick(e: MouseEvent) {
     const world = this.renderer.screenToWorld(e.offsetX, e.offsetY);
 
-    // Check citizens
-    for (const citizen of this.citizens) {
+    // Check citizens — sort by visual depth (topmost first) so clicks hit the right one
+    const sorted = [...this.citizens].sort((a, b) => {
+      const aLayer = a.isAnchored() ? 12 : 20;
+      const bLayer = b.isAnchored() ? 12 : 20;
+      if (aLayer !== bLayer) return bLayer - aLayer;
+      return b.y - a.y;
+    });
+    for (const citizen of sorted) {
       if (citizen.containsPoint(world.x, world.y)) {
         this.emit('citizen:click', {
           agentId: citizen.agentId,
