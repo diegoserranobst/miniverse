@@ -651,6 +651,40 @@ export class MiniverseServer {
         break;
       }
 
+      case 'TaskCompleted': {
+        const taskSubject = data.task_subject as string | undefined;
+        const teammateName = data.teammate_name as string | undefined;
+        const desc = taskSubject ? truncate(taskSubject, 40) : 'Task done';
+        this.store.heartbeat({ agent: agentId, name: agentName, state: 'speaking', task: `✓ ${desc}` });
+        this.events.push(agentId, { type: 'status', state: 'speaking' });
+        break;
+      }
+
+      case 'TeammateIdle': {
+        const teammateName = data.teammate_name as string | undefined;
+        // Try to find the teammate citizen and set it to sleeping
+        if (teammateName) {
+          const allAgents = this.store.getAll();
+          const teammate = allAgents.find(a =>
+            a.name?.includes(teammateName) && a.state !== 'offline'
+          );
+          if (teammate) {
+            this.store.heartbeat({ agent: teammate.agent, name: teammate.name, state: 'sleeping', task: 'Idle' });
+          }
+        }
+        break;
+      }
+
+      case 'StopFailure': {
+        const error = data.error as string | undefined;
+        this.store.heartbeat({
+          agent: agentId, name: agentName, state: 'error',
+          task: error ? truncate(`Error: ${error}`, 50) : 'API error',
+        });
+        this.events.push(agentId, { type: 'status', state: 'error' });
+        break;
+      }
+
       case 'SessionEnd': {
         this.stopKeepalive(agentId);
         this.store.heartbeat({ agent: agentId, name: agentName, state: 'offline', task: null });
