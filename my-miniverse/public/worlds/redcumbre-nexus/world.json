@@ -10,7 +10,7 @@
     ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
     ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
 
-    ["neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor","neon_accent_floor"],
+    ["wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","neon_accent_floor","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon"],
 
     ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
     ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
@@ -81,6 +81,7 @@
     "neon_accent_floor": "world_assets/tiles/neon_accent_floor.png",
     "dark_metal_wall": "world_assets/tiles/dark_metal_wall.png",
     "neon_kanji_wall": "world_assets/tiles/neon_kanji_wall.png",
-    "rain_window_wall": "world_assets/tiles/rain_window_wall.png"
+    "rain_window_wall": "world_assets/tiles/rain_window_wall.png",
+    "wall_neon": "world_assets/tiles/neon_accent_floor.png"
   }
 }

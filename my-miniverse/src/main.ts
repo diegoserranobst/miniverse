@@ -34,7 +34,10 @@ function buildSceneConfig(cols: number, rows: number, floor: string[][] | undefi
   const walkable: boolean[][] = [];
   for (let r = 0; r < rows; r++) {
     walkable[r] = [];
-    for (let c = 0; c < cols; c++) walkable[r][c] = (safeFloor[r]?.[c] ?? '') !== '';
+    for (let c = 0; c < cols; c++) {
+      const tile = safeFloor[r]?.[c] ?? '';
+      walkable[r][c] = tile !== '' && !tile.startsWith('wall_');
+    }
   }
 
   const resolvedTiles: Record<string, string> = { ...(tiles ?? {}) };
