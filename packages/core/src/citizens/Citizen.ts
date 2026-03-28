@@ -417,6 +417,21 @@ export class Citizen {
         return true;
       }
     }
+
+    // No path found — teleport to first available anchor (zones separated by walls)
+    for (const loc of shuffled) {
+      if (reservation && !reservation.isAvailable(loc.x, loc.y, this.agentId)) continue;
+      if (reservation) {
+        reservation.release(this.agentId);
+        reservation.reserve(loc.x, loc.y, this.agentId);
+      }
+      this.currentAnchor = loc.name;
+      this.x = loc.x * this.tileWidth;
+      this.y = loc.y * this.tileHeight;
+      this.path = [];
+      this.pathIndex = 0;
+      return true;
+    }
     return false;
   }
 
