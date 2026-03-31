@@ -36,7 +36,7 @@ export class MiniverseServer {
   constructor(config: MiniverseServerConfig = {}) {
     this.port = config.port ?? 4321;
     this.publicDir = config.publicDir ?? null;
-    this.store = new AgentStore(config.offlineTimeout ?? 15000);
+    this.store = new AgentStore(config.offlineTimeout ?? 30000);
     this.events = new EventLog();
 
     this.httpServer = createServer((req, res) => this.handleHttp(req, res));
@@ -436,10 +436,27 @@ export class MiniverseServer {
 
   /** Keepalive intervals for hook-based agents so they don't time out between interactions */
   private keepalives: Map<string, ReturnType<typeof setInterval>> = new Map();
+  /** Timestamp of last REAL hook (not keepalive) per agent — used to expire stale keepalives */
+  private lastRealHook: Map<string, number> = new Map();
+  private static KEEPALIVE_MAX_IDLE = 120000; // 2 min without a real hook → stop keepalive
 
-  private startKeepalive(_agentId: string, _agentName: string) {
-    // No-op: keepalives removed — they were preventing ghost agents from timing out.
-    // The store sweep handles idle detection naturally via lastSeen timestamps.
+  private startKeepalive(agentId: string, agentName: string) {
+    this.stopKeepalive(agentId);
+    this.lastRealHook.set(agentId, Date.now());
+    const interval = setInterval(() => {
+      const lastReal = this.lastRealHook.get(agentId) ?? 0;
+      if (Date.now() - lastReal > MiniverseServer.KEEPALIVE_MAX_IDLE) {
+        // No real hook in 2 min — ghost agent, stop keepalive and let it expire
+        this.stopKeepalive(agentId);
+        return;
+      }
+      this.store.heartbeat({ agent: agentId, name: agentName });
+    }, 10000);
+    this.keepalives.set(agentId, interval);
+  }
+
+  private touchRealHook(agentId: string) {
+    this.lastRealHook.set(agentId, Date.now());
   }
 
   private stopKeepalive(agentId: string) {
@@ -448,6 +465,7 @@ export class MiniverseServer {
       clearInterval(existing);
       this.keepalives.delete(agentId);
     }
+    this.lastRealHook.delete(agentId);
   }
 
   /** Track sub-agent keepalives so we can clean them up with the parent */
@@ -561,6 +579,9 @@ export class MiniverseServer {
     // Sub-agent fields
     const subagentId = data.subagent_id as string | undefined;
     const subagentTask = data.subagent_task as string | undefined;
+
+    // Mark every real hook event so keepalive knows the agent is alive
+    this.touchRealHook(agentId);
 
     switch (event) {
       case 'SessionStart':
