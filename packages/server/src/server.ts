@@ -36,7 +36,7 @@ export class MiniverseServer {
   constructor(config: MiniverseServerConfig = {}) {
     this.port = config.port ?? 4321;
     this.publicDir = config.publicDir ?? null;
-    this.store = new AgentStore(config.offlineTimeout ?? 30000);
+    this.store = new AgentStore(config.offlineTimeout ?? 15000);
     this.events = new EventLog();
 
     this.httpServer = createServer((req, res) => this.handleHttp(req, res));
@@ -437,12 +437,9 @@ export class MiniverseServer {
   /** Keepalive intervals for hook-based agents so they don't time out between interactions */
   private keepalives: Map<string, ReturnType<typeof setInterval>> = new Map();
 
-  private startKeepalive(agentId: string, agentName: string) {
-    this.stopKeepalive(agentId);
-    const interval = setInterval(() => {
-      this.store.heartbeat({ agent: agentId, name: agentName });
-    }, 15000);
-    this.keepalives.set(agentId, interval);
+  private startKeepalive(_agentId: string, _agentName: string) {
+    // No-op: keepalives removed — they were preventing ghost agents from timing out.
+    // The store sweep handles idle detection naturally via lastSeen timestamps.
   }
 
   private stopKeepalive(agentId: string) {
