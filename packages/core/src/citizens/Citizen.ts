@@ -168,6 +168,8 @@ export class Citizen {
 
   /** Pending anchor navigation request — fulfilled on next update() when pathfinder is available */
   private pendingAnchorType: string | null = null;
+  /** Allow teleport on next goToAnchorType if no walkable path exists */
+  private pendingTeleport = false;
 
   updateState(state: AgentState, task: string | null, energy: number) {
     const prevState = this.state;
@@ -217,11 +219,13 @@ export class Citizen {
     if (this.pendingAnchorType && !this.isMoving() && typedLocations && typedLocations.length > 0) {
       const target = this.pendingAnchorType;
       this.pendingAnchorType = null;
+      this.pendingTeleport = true; // Allow teleport across barriers for state changes
       if (target === 'wander') {
-        // Pick a random wander/rest/social point
+        this.pendingTeleport = false; // Wander should not teleport
         this.idleBehaviorTimer = this.idleBehaviorInterval;
       } else {
         this.goToAnchorType(target as AnchorType, typedLocations, pathfinder, reservation, excludeNames);
+        this.pendingTeleport = false;
       }
     }
 
@@ -418,19 +422,22 @@ export class Citizen {
       }
     }
 
-    // No path found — teleport to first available anchor (zones separated by walls)
-    for (const loc of shuffled) {
-      if (reservation && !reservation.isAvailable(loc.x, loc.y, this.agentId)) continue;
-      if (reservation) {
-        reservation.release(this.agentId);
-        reservation.reserve(loc.x, loc.y, this.agentId);
+    // No path found — only teleport if explicitly requested (state change), not idle wander
+    if (this.pendingTeleport) {
+      this.pendingTeleport = false;
+      for (const loc of shuffled) {
+        if (reservation && !reservation.isAvailable(loc.x, loc.y, this.agentId)) continue;
+        if (reservation) {
+          reservation.release(this.agentId);
+          reservation.reserve(loc.x, loc.y, this.agentId);
+        }
+        this.currentAnchor = loc.name;
+        this.x = loc.x * this.tileWidth;
+        this.y = loc.y * this.tileHeight;
+        this.path = [];
+        this.pathIndex = 0;
+        return true;
       }
-      this.currentAnchor = loc.name;
-      this.x = loc.x * this.tileWidth;
-      this.y = loc.y * this.tileHeight;
-      this.path = [];
-      this.pathIndex = 0;
-      return true;
     }
     return false;
   }
