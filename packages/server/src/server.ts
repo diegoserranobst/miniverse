@@ -438,7 +438,7 @@ export class MiniverseServer {
   private keepalives: Map<string, ReturnType<typeof setInterval>> = new Map();
   /** Timestamp of last REAL hook (not keepalive) per agent — used to expire stale keepalives */
   private lastRealHook: Map<string, number> = new Map();
-  private static KEEPALIVE_MAX_IDLE = 120000; // 2 min without a real hook → stop keepalive
+  private static KEEPALIVE_MAX_IDLE = 2400000; // 40 min without a real hook → stop keepalive
 
   private startKeepalive(agentId: string, agentName: string) {
     this.stopKeepalive(agentId);
