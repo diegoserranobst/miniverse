@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>REDCUMBRE OPERACIONES</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -59,6 +62,34 @@
     .status-dot.error { background: #ef4444; }
     .status-dot.speaking { background: #22d3ee; }
     .hint { font-size: 10px; color: #444; }
+
+    @media (max-width: 768px) and (orientation: portrait) {
+      body {
+        gap: 0;
+        padding: 0;
+        justify-content: flex-start;
+        min-height: auto;
+      }
+      h1 { display: none; }
+      .subtitle { display: none; }
+      #miniverse-container {
+        border: none;
+        border-radius: 0;
+      }
+      #miniverse-container canvas {
+        width: 100vw !important;
+        height: auto !important;
+      }
+      .status-bar {
+        font-size: 9px;
+        gap: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 2px 4px;
+      }
+      .hint { display: none; }
+      #tooltip { font-size: 10px; max-width: 160px; }
+    }
   </style>
 </head>
 <body>

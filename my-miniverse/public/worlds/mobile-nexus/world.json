@@ -1,0 +1,206 @@
+{
+  "gridCols": 9,
+  "gridRows": 20,
+  "floor": [
+    ["dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall"],
+    ["dark_metal_wall", "rain_window_wall", "rain_window_wall", "rain_window_wall", "rain_window_wall", "neon_kanji_wall", "neon_kanji_wall", "neon_kanji_wall", "dark_metal_wall"],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", "neon_accent_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", "dark_circuit_floor", ""],
+    ["dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall", "dark_metal_wall"]
+  ],
+  "props": [
+    {
+      "id": "redcumbre_logo",
+      "x": 2,
+      "y": 0,
+      "w": 4,
+      "h": 2,
+      "layer": "below"
+    },
+
+    {
+      "id": "standing_terminal",
+      "x": 1, "y": 2, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w1", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 3, "y": 2, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w2", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 5, "y": 2, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w3", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 7, "y": 2, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w4", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 1, "y": 4, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w5", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 3, "y": 4, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w6", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 5, "y": 4, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w7", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 7, "y": 4, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w8", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 1, "y": 6, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w9", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 3, "y": 6, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w10", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 5, "y": 6, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w11", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 7, "y": 6, "w": 1, "h": 1.5, "layer": "below",
+      "anchors": [{ "name": "w12", "ox": 0.5, "oy": 1.2, "type": "work" }]
+    },
+
+    {
+      "id": "server_rack",
+      "x": 1, "y": 9, "w": 1.5, "h": 1.5, "layer": "below",
+      "anchors": [
+        { "name": "utility_1", "ox": 0.75, "oy": 1.2, "type": "utility" },
+        { "name": "utility_2", "ox": 2, "oy": 1, "type": "utility" }
+      ]
+    },
+    {
+      "id": "holo_command_desk",
+      "x": 5, "y": 9, "w": 2, "h": 1.5, "layer": "below",
+      "anchors": [
+        { "name": "utility_3", "ox": 0.5, "oy": 1.2, "type": "utility" },
+        { "name": "utility_4", "ox": 1.5, "oy": 1.2, "type": "utility" }
+      ]
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "x": 4, "y": 9.5, "w": 0.8, "h": 0.8, "layer": "below"
+    },
+
+    {
+      "id": "hologram_globe",
+      "x": 1, "y": 13, "w": 1.5, "h": 1.5, "layer": "below",
+      "anchors": [
+        { "name": "social_1", "ox": 0.75, "oy": 1.2, "type": "social" },
+        { "name": "social_2", "ox": 2, "oy": 1, "type": "social" }
+      ]
+    },
+    {
+      "id": "coffee_synthesizer",
+      "x": 4, "y": 13, "w": 1, "h": 1, "layer": "below",
+      "anchors": [
+        { "name": "social_3", "ox": 0.5, "oy": 1, "type": "social" },
+        { "name": "social_4", "ox": -0.5, "oy": 1, "type": "social" }
+      ]
+    },
+    {
+      "id": "mini_fridge_neon",
+      "x": 6, "y": 13, "w": 1, "h": 1, "layer": "below",
+      "anchors": [
+        { "name": "social_5", "ox": 0.5, "oy": 1, "type": "social" }
+      ]
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "x": 7, "y": 14.5, "w": 0.8, "h": 0.8, "layer": "below"
+    },
+
+    {
+      "id": "cyberpunk_couch",
+      "x": 2, "y": 17, "w": 3, "h": 1.5, "layer": "below",
+      "anchors": [
+        { "name": "rest_1", "ox": 0.8, "oy": 0.8, "type": "rest" },
+        { "name": "rest_2", "ox": 2.2, "oy": 0.8, "type": "rest" }
+      ]
+    },
+    {
+      "id": "drone_charging_pad",
+      "x": 6, "y": 17, "w": 1, "h": 1, "layer": "below",
+      "anchors": [
+        { "name": "rest_3", "ox": 0.5, "oy": 1, "type": "rest" }
+      ]
+    },
+    {
+      "id": "drone_charging_pad",
+      "x": 1, "y": 17.5, "w": 1, "h": 1, "layer": "below",
+      "anchors": [
+        { "name": "rest_4", "ox": 0.5, "oy": 0.8, "type": "rest" }
+      ]
+    },
+    {
+      "id": "cable_bundle_floor",
+      "x": 7, "y": 18, "w": 1, "h": 0.5, "layer": "below"
+    }
+  ],
+  "wanderPoints": [
+    { "name": "wander_work", "x": 4, "y": 7 },
+    { "name": "wander_utility", "x": 4, "y": 11 },
+    { "name": "wander_social", "x": 4, "y": 15 },
+    { "name": "wander_rest", "x": 4, "y": 18 }
+  ],
+  "propImages": {
+    "holo_command_desk": "world_assets/props/prop_0_holo_command_desk.png",
+    "holo_monitor_wall": "world_assets/props/prop_3_holo_monitor_wall.png",
+    "server_rack": "world_assets/props/prop_2_server_rack.png",
+    "operator_chair": "world_assets/props/prop_1_operator_chair.png",
+    "neon_logo_sign": "world_assets/props/prop_4_neon_logo_sign.png",
+    "redcumbre_logo": "world_assets/props/redcumbre_logo.png",
+    "standing_terminal": "world_assets/props/prop_5_standing_terminal.png",
+    "coffee_synthesizer": "world_assets/props/prop_7_coffee_synthesizer.png",
+    "cyberpunk_couch": "world_assets/props/prop_6_cyberpunk_couch.png",
+    "mini_fridge_neon": "world_assets/props/prop_8_mini_fridge_neon.png",
+    "cable_bundle_floor": "world_assets/props/prop_9_cable_bundle_floor.png",
+    "hologram_globe": "world_assets/props/prop_10_hologram_globe.png",
+    "neon_floor_strip": "world_assets/props/prop_11_neon_floor_strip.png",
+    "weapon_rack_display": "world_assets/props/prop_12_weapon_rack_display.png",
+    "potted_bonsai_neon": "world_assets/props/prop_13_potted_bonsai_neon.png",
+    "drone_charging_pad": "world_assets/props/prop_14_drone_charging_pad.png"
+  },
+  "tiles": {
+    "dark_circuit_floor": "world_assets/tiles/dark_circuit_floor.png",
+    "neon_accent_floor": "world_assets/tiles/neon_accent_floor.png",
+    "dark_metal_wall": "world_assets/tiles/dark_metal_wall.png",
+    "neon_kanji_wall": "world_assets/tiles/neon_kanji_wall.png",
+    "rain_window_wall": "world_assets/tiles/rain_window_wall.png",
+    "wall_neon": "world_assets/tiles/neon_accent_floor.png"
+  },
+  "citizens": []
+}

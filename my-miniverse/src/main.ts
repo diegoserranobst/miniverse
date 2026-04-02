@@ -2,7 +2,17 @@ import { Miniverse, PropSystem, Editor, createStandardSpriteConfig } from '@mini
 import type { SceneConfig, SpriteSheetConfig, CitizenDef } from '@miniverse/core';
 import { connectSounds, createMuteButton, playSound } from './sounds';
 
-const WORLD_ID = 'redcumbre-nexus';
+function detectWorldId(): string {
+  const params = new URLSearchParams(window.location.search);
+  const override = params.get('world');
+  if (override) return override;
+
+  const isPortrait = window.innerWidth < window.innerHeight;
+  const isNarrow = window.innerWidth <= 768;
+  return (isPortrait && isNarrow) ? 'mobile-nexus' : 'redcumbre-nexus';
+}
+
+const WORLD_ID = detectWorldId();
 const basePath = `/worlds/${WORLD_ID}`;
 const isDev = window.location.port === '25051';
 const API_BASE = isDev
@@ -101,6 +111,14 @@ async function main() {
     });
   }
 
+  const canvasW = gridCols * tileSize;
+  const canvasH = gridRows * tileSize;
+  const isMobileView = window.innerWidth <= 768 && window.innerWidth < window.innerHeight;
+  const maxW = window.innerWidth * (isMobileView ? 1.0 : 0.95);
+  const maxH = window.innerHeight * (isMobileView ? 0.92 : 0.75);
+  const rawScale = Math.min(maxW / canvasW, maxH / canvasH, 4);
+  const scale = isMobileView ? rawScale : Math.max(1, Math.floor(rawScale));
+
   const mv = new Miniverse({
     container,
     world: WORLD_ID,
@@ -110,16 +128,16 @@ async function main() {
       url: `${WS_BASE}/ws`,
     },
     citizens,
-    scale: 2,
-    width: gridCols * tileSize,
-    height: gridRows * tileSize,
+    scale,
+    width: canvasW,
+    height: canvasH,
     sceneConfig,
     spriteSheets,
     objects: [],
   });
 
   // --- Props system ---
-  const props = new PropSystem(tileSize, 2);
+  const props = new PropSystem(tileSize, scale);
 
   const rawSpriteMap: Record<string, string> = sceneData?.propImages ?? {};
   await Promise.all(
@@ -151,27 +169,30 @@ async function main() {
   mv.addLayer({ order: 5, render: (ctx) => props.renderBelow(ctx) });
   mv.addLayer({ order: 15, render: (ctx) => props.renderAbove(ctx) });
 
-  // --- Editor ---
-  const editor = new Editor({
-    canvas: mv.getCanvas(),
-    props,
-    miniverse: mv,
-    worldId: WORLD_ID,
-    apiBase: '',
-    onSave: async (scene) => {
-      const res = await fetch('/api/save-world', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...scene, worldId: WORLD_ID }),
-      });
-      if (!res.ok) throw new Error(await res.text());
-    },
-  });
-  editor.loadCitizenDefs(sceneData?.citizens);
-  mv.addLayer({ order: 50, render: (ctx) => {
-    editor.renderOverlay(ctx);
-    if (editor.isActive()) syncProps();
-  } });
+  // --- Editor (desktop only) ---
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) {
+    const editor = new Editor({
+      canvas: mv.getCanvas(),
+      props,
+      miniverse: mv,
+      worldId: WORLD_ID,
+      apiBase: '',
+      onSave: async (scene) => {
+        const res = await fetch('/api/save-world', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...scene, worldId: WORLD_ID }),
+        });
+        if (!res.ok) throw new Error(await res.text());
+      },
+    });
+    editor.loadCitizenDefs(sceneData?.citizens);
+    mv.addLayer({ order: 50, render: (ctx) => {
+      editor.renderOverlay(ctx);
+      if (editor.isActive()) syncProps();
+    } });
+  }
 
   // --- Sound system ---
   connectSounds(`${WS_BASE}/ws`);
@@ -193,6 +214,14 @@ async function main() {
     tooltip.style.left = e.clientX + 12 + 'px';
     tooltip.style.top = e.clientY + 12 + 'px';
   });
+
+  container.addEventListener('touchstart', (e) => {
+    const touch = e.touches[0];
+    if (touch) {
+      tooltip.style.left = touch.clientX + 12 + 'px';
+      tooltip.style.top = touch.clientY - 40 + 'px';
+    }
+  }, { passive: true });
 }
 
 main().catch(console.error);
