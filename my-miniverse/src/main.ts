@@ -4,8 +4,13 @@ import { connectSounds, createMuteButton, playSound } from './sounds';
 
 const WORLD_ID = 'redcumbre-nexus';
 const basePath = `/worlds/${WORLD_ID}`;
-const API_BASE = `${window.location.protocol}//${window.location.hostname}:25050`;
-const WS_BASE = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.hostname}:25050`;
+const isDev = window.location.port === '25051';
+const API_BASE = isDev
+  ? `${window.location.protocol}//${window.location.hostname}:25050`
+  : `${window.location.protocol}//${window.location.host}`;
+const WS_BASE = isDev
+  ? `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.hostname}:25050`
+  : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`;
 
 function charSprites(name: string): SpriteSheetConfig {
   return {

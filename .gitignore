@@ -1,7 +1,29 @@
+# Dependencias
 node_modules/
+
+# Build
 dist/
 *.tsbuildinfo
 .vite/
-.DS_Store
-*.local
+
+# Env y secrets
 .env
+.env.*
+!.env.example
+
+# Settings locales de Claude Code
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.idea/
+*.swp
+*.swo
+*~

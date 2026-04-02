@@ -35,6 +35,9 @@ rsync -avz --delete \
   --exclude='node_modules' \
   "$LOCAL_DIR/packages/server/dist/" "$VPS:$REMOTE_DIR/packages/server/dist/"
 
+rsync -avz \
+  "$LOCAL_DIR/packages/server/bin/" "$VPS:$REMOTE_DIR/packages/server/bin/"
+
 rsync -avz --delete \
   "$LOCAL_DIR/my-miniverse/dist/" "$VPS:$REMOTE_DIR/my-miniverse/dist/"
 
@@ -56,7 +59,7 @@ rsync -avz \
 # 3. Install deps + restart en VPS
 echo ""
 echo "--- Install + restart en VPS ---"
-ssh "$VPS" "cd $REMOTE_DIR && npm install --omit=dev 2>&1 | tail -3 && cd my-miniverse && npm install --omit=dev 2>&1 | tail -3 && pm2 restart miniverse 2>/dev/null || pm2 start 'npx miniverse --port 25050 --host 127.0.0.1 --no-browser' --name miniverse --cwd $REMOTE_DIR/my-miniverse && pm2 save"
+ssh "$VPS" "cd $REMOTE_DIR && npm install --omit=dev 2>&1 | tail -3 && cd my-miniverse && npm install --omit=dev 2>&1 | tail -3 && pm2 restart miniverse 2>/dev/null || pm2 start 'node ../packages/server/bin/miniverse.js --port 25050 --host 127.0.0.1 --no-browser' --name miniverse --cwd $REMOTE_DIR/my-miniverse && pm2 save"
 
 echo ""
 echo "=== Deploy completo ==="

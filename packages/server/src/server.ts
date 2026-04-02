@@ -798,6 +798,21 @@ export class MiniverseServer {
       return;
     }
 
+    if (req.method === 'GET' && url.pathname === '/api/citizens') {
+      const publicDir = this.publicDir ?? './public';
+      const citizensDir = path.join(publicDir, 'universal_assets', 'citizens');
+      try {
+        const files = readdirSync(citizensDir).filter((f: string) => f.endsWith('_walk.png'));
+        const names = files.map((f: string) => f.replace('_walk.png', ''));
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(names));
+      } catch {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(['morty', 'dexter', 'nova', 'rio']));
+      }
+      return;
+    }
+
     if (req.method === 'POST' && url.pathname === '/api/heartbeat') {
       try {
         const body = await readBody(req);

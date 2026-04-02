@@ -2,61 +2,636 @@
   "gridCols": 16,
   "gridRows": 12,
   "floor": [
-    ["dark_metal_wall","dark_metal_wall","dark_metal_wall","dark_metal_wall","dark_metal_wall","dark_metal_wall","rain_window_wall","rain_window_wall","rain_window_wall","rain_window_wall","rain_window_wall","rain_window_wall","dark_metal_wall","dark_metal_wall","neon_kanji_wall","dark_metal_wall"],
-    ["dark_metal_wall","dark_metal_wall","dark_metal_wall","dark_metal_wall","dark_metal_wall","dark_metal_wall","rain_window_wall","rain_window_wall","rain_window_wall","rain_window_wall","rain_window_wall","rain_window_wall","dark_metal_wall","dark_metal_wall","neon_kanji_wall","dark_metal_wall"],
-
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-
-    ["wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon","wall_neon"],
-
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"],
-    ["dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","neon_accent_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor","dark_circuit_floor"]
+    [
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "neon_kanji_wall",
+      "dark_metal_wall"
+    ],
+    [
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "rain_window_wall",
+      "dark_metal_wall",
+      "dark_metal_wall",
+      "neon_kanji_wall",
+      "dark_metal_wall"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon",
+      "wall_neon"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "neon_accent_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "neon_accent_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "neon_accent_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "neon_accent_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ],
+    [
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "neon_accent_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor",
+      "dark_circuit_floor"
+    ]
   ],
   "props": [
-    {"id":"redcumbre_logo","x":1,"y":0,"w":4,"h":2,"layer":"below"},
-    {"id":"weapon_rack_display","x":6,"y":0.5,"w":2,"h":1,"layer":"below"},
-    {"id":"holo_monitor_wall","x":9,"y":0,"w":5,"h":2,"layer":"below"},
-
-    {"id":"standing_terminal","x":1,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w1","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":3,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w2","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":5,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w3","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":7,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w4","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":9,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w5","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":11,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w6","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":13,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w7","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":15,"y":2,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w8","ox":0.5,"oy":1.5,"type":"work"}]},
-
-    {"id":"standing_terminal","x":1,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w9","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":3,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w10","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":5,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w11","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":7,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w12","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":9,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w13","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":11,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w14","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":13,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w15","ox":0.5,"oy":1.5,"type":"work"}]},
-    {"id":"standing_terminal","x":15,"y":4,"w":1,"h":1.5,"layer":"below","anchors":[{"name":"w16","ox":0.5,"oy":1.5,"type":"work"}]},
-
-    {"id":"cyberpunk_couch","x":1,"y":7.5,"w":3,"h":1.5,"layer":"below","anchors":[{"name":"rest_1","ox":1.5,"oy":1.5,"type":"rest"}]},
-    {"id":"cyberpunk_couch","x":1,"y":10,"w":3,"h":1.5,"layer":"below","anchors":[{"name":"rest_2","ox":1.5,"oy":1.5,"type":"rest"}]},
-    {"id":"potted_bonsai_neon","x":5,"y":7.5,"w":0.8,"h":0.8,"layer":"below"},
-    {"id":"potted_bonsai_neon","x":5,"y":10.5,"w":0.8,"h":0.8,"layer":"below"},
-    {"id":"drone_charging_pad","x":5,"y":9,"w":1,"h":1,"layer":"below"},
-
-    {"id":"hologram_globe","x":9,"y":7.5,"w":1.5,"h":1.5,"layer":"below","anchors":[{"name":"social_1","ox":0.75,"oy":1.5,"type":"social"}]},
-    {"id":"coffee_synthesizer","x":12,"y":7.5,"w":1,"h":1,"layer":"below","anchors":[{"name":"social_2","ox":0.5,"oy":1,"type":"social"}]},
-    {"id":"mini_fridge_neon","x":14,"y":7.5,"w":1,"h":1,"layer":"below"},
-    {"id":"potted_bonsai_neon","x":9,"y":10,"w":0.8,"h":0.8,"layer":"below"},
-    {"id":"potted_bonsai_neon","x":12,"y":10,"w":0.8,"h":0.8,"layer":"below"},
-    {"id":"cable_bundle_floor","x":14,"y":10,"w":1,"h":0.5,"layer":"below"}
+    {
+      "id": "redcumbre_logo",
+      "x": 1,
+      "y": 0,
+      "w": 4,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "weapon_rack_display",
+      "x": 6,
+      "y": 0.5,
+      "w": 2,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "holo_monitor_wall",
+      "x": 9,
+      "y": 0,
+      "w": 5,
+      "h": 2,
+      "layer": "below"
+    },
+    {
+      "id": "standing_terminal",
+      "x": 1,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w1",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 3,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w2",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 5,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w3",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 7,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w4",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 9,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w5",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 11,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w6",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 13,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w7",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 15,
+      "y": 2,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w8",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 1,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w9",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 3,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w10",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 5,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w11",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 7,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w12",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 9,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w13",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 11,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w14",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 13,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w15",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "standing_terminal",
+      "x": 15,
+      "y": 4,
+      "w": 1,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "w16",
+          "ox": 0.5,
+          "oy": 1.5,
+          "type": "work"
+        }
+      ]
+    },
+    {
+      "id": "cyberpunk_couch",
+      "x": 1,
+      "y": 7.5,
+      "w": 3,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "rest_1",
+          "ox": 1.5,
+          "oy": 1.5,
+          "type": "rest"
+        }
+      ]
+    },
+    {
+      "id": "cyberpunk_couch",
+      "x": 1,
+      "y": 10,
+      "w": 3,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "rest_2",
+          "ox": 1.5,
+          "oy": 1.5,
+          "type": "rest"
+        }
+      ]
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "x": 5,
+      "y": 7.5,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "below"
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "x": 5,
+      "y": 10.5,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "below"
+    },
+    {
+      "id": "drone_charging_pad",
+      "x": 5,
+      "y": 9,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "hologram_globe",
+      "x": 9,
+      "y": 7.5,
+      "w": 1.5,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "social_1",
+          "ox": 0.75,
+          "oy": 1.5,
+          "type": "social"
+        }
+      ]
+    },
+    {
+      "id": "coffee_synthesizer",
+      "x": 12,
+      "y": 7.5,
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "social_2",
+          "ox": 0.5,
+          "oy": 1,
+          "type": "social"
+        }
+      ]
+    },
+    {
+      "id": "mini_fridge_neon",
+      "x": 14,
+      "y": 7.5,
+      "w": 1,
+      "h": 1,
+      "layer": "below"
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "x": 9,
+      "y": 10,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "below"
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "x": 12,
+      "y": 10,
+      "w": 0.8,
+      "h": 0.8,
+      "layer": "below"
+    },
+    {
+      "id": "cable_bundle_floor",
+      "x": 14,
+      "y": 10,
+      "w": 1,
+      "h": 0.5,
+      "layer": "below"
+    }
   ],
   "wanderPoints": [
-    {"name":"wander_rest","x":3,"y":10},
-    {"name":"wander_social","x":11,"y":10}
+    {
+      "name": "wander_rest",
+      "x": 3,
+      "y": 10
+    },
+    {
+      "name": "wander_social",
+      "x": 11,
+      "y": 10
+    }
   ],
   "propImages": {
     "holo_command_desk": "world_assets/props/prop_0_holo_command_desk.png",
@@ -83,5 +658,98 @@
     "neon_kanji_wall": "world_assets/tiles/neon_kanji_wall.png",
     "rain_window_wall": "world_assets/tiles/rain_window_wall.png",
     "wall_neon": "world_assets/tiles/neon_accent_floor.png"
-  }
+  },
+  "citizens": [
+    {
+      "agentId": "claude-rCAPI-6cb4e5",
+      "name": "Claude (rCAPI #6cb4e5)",
+      "sprite": "Claude (rCAPI #6cb4e5)",
+      "position": "wander_social",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-03fa74",
+      "name": "el skill ds-req-to-change lee…",
+      "sprite": "el skill ds-req-to-change lee…",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-e6c957",
+      "name": "es posible que el workflow en…",
+      "sprite": "es posible que el workflow en…",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-6cb4e5-sub-4ypc1s",
+      "name": "Claude (sub of rCAPI)",
+      "sprite": "Claude (sub of rCAPI)",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-miniverse-201d58",
+      "name": "elimina los hooks relacionado…",
+      "sprite": "elimina los hooks relacionado…",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-miniverse-1b755c",
+      "name": "La nueva sesión en /home/dieg…",
+      "sprite": "La nueva sesión en /home/dieg…",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-miniverse-1b755c-sub-j05e0y",
+      "name": "Claude (sub of miniverse)",
+      "sprite": "Claude (sub of miniverse)",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-20211d",
+      "name": "/ds-bug-plan 146",
+      "sprite": "/ds-bug-plan 146",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-051c70",
+      "name": "/ds-bug-plan 149",
+      "sprite": "/ds-bug-plan 149",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-dd2a95",
+      "name": "/ds-bug-plan 153",
+      "sprite": "/ds-bug-plan 153",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-36c246",
+      "name": "/ds-bug-plan 157",
+      "sprite": "/ds-bug-plan 157",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-604651",
+      "name": "/ds-bug-plan",
+      "sprite": "/ds-bug-plan",
+      "position": "wander_rest",
+      "type": "agent"
+    },
+    {
+      "agentId": "claude-rCAPI-b45226",
+      "name": "/ds-bug-plan 155",
+      "sprite": "/ds-bug-plan 155",
+      "position": "wander_rest",
+      "type": "agent"
+    }
+  ]
 }
