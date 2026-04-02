@@ -35,10 +35,8 @@ miniverse/                    # Monorepo (upstream + customizaciones)
 
 | Puerto | Servicio | Entorno |
 |--------|----------|---------|
-| 25050  | Miniverse Server (API + WebSocket) | Local DEV |
-| 25051  | Miniverse Frontend (Vite dev) | Local DEV |
-
-Producción usa `miniverse.redcumbre.cl` con OpenResty reverse proxy.
+| 25050  | Miniverse Server (API + WebSocket) | DEV local y producción |
+| 25051  | Miniverse Frontend (Vite dev) | Solo DEV local |
 
 ## Desarrollo local
 
@@ -48,33 +46,21 @@ npm run dev
 # Abre http://localhost:25051
 ```
 
-El servidor se levanta automáticamente via systemd user service (`miniverse.service`).
-
 ## Deploy a producción
 
 ```bash
 npm run deploy
 ```
 
-Ejecuta `scripts/deploy.sh` que:
-1. Build del core y server
-2. Build del frontend (vite build)
-3. rsync al VPS (`vps-fireraise:/opt/miniverse/`)
-4. Reinicia el servicio PM2 en el VPS
-
-**VPS:** `ssh vps-fireraise`
-**Dominio:** `miniverse.redcumbre.cl`
-**Proceso:** PM2 (`pm2 restart miniverse`)
+Ejecuta `scripts/deploy.sh`: build core + server + frontend → rsync al VPS → `pm2 restart miniverse`.
 
 ## Hooks de Claude Code
 
-Los hooks se configuran en el proyecto que usa Claude Code (ej: rCAPI `.claude/settings.local.json`).
-Todos los eventos envían POST a:
+Los hooks HTTP están configurados **globalmente** en `~/.claude/settings.json` y aplican a todas las instancias de Claude Code. Envían POST a:
 
-- **Local:** `http://localhost:25050/api/hooks/claude-code`
-- **Producción:** `https://miniverse.redcumbre.cl/api/hooks/claude-code`
+`https://miniverse.redcumbre.cl/api/hooks/claude-code`
 
-Eventos configurados: SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, PostToolUseFailure, Stop, SubagentStart, SubagentStop, SessionEnd, TaskCompleted, TeammateIdle, StopFailure.
+Eventos: SessionStart, UserPromptSubmit, PreToolUse, PostToolUse, PostToolUseFailure, Stop, SubagentStart, SubagentStop, SessionEnd, TaskCompleted, TeammateIdle, StopFailure.
 
 ## Mundo activo: redcumbre-nexus
 
@@ -116,36 +102,29 @@ git merge upstream/main
 npm run build  # Rebuild core
 ```
 
-## VPS de producción — CUIDADO
+## Producción
 
-El VPS (`ssh vps-fireraise`) es una máquina **compartida** que hospeda múltiples servicios en producción:
+**URL:** `https://miniverse.redcumbre.cl`
+**VPS:** `ssh vps-fireraise`
+**Proceso:** PM2 (`pm2 restart miniverse`)
+**Directorio:** `/opt/miniverse/`
 
-- **rCAPI** (api.redcumbre.cl, app.redcumbre.cl) — ERP/SaaS multi-tenant, el negocio principal
-- **ValidaFirma** (validafirma.cl) — servicio de firma electrónica
-- **Cooperadores** (cooperadores.cl, bots, admin) — plataforma de cooperativas
-- **ONEXO** (onexo.cl) — contratos digitales
-- **Monitoring** (grafana, loki, clickhouse) — observabilidad
+**Arquitectura:**
+- OpenResty sirve frontend estático desde `/opt/miniverse/my-miniverse/dist/`
+- OpenResty proxea `/api/*` y `/ws` a Node.js en `127.0.0.1:25050`
+- SSL con Let's Encrypt (certbot webroot)
+- Config: `/usr/local/openresty/nginx/conf/sites-available/miniverse.redcumbre.cl`
+- Logs: `/var/log/nginx/miniverse.redcumbre.cl-{access,error}.log` + `all-traffic.log` (GoAccess)
 
-**OpenResty** es el reverse proxy central que maneja TODOS estos dominios. La config está en:
-- `/usr/local/openresty/nginx/conf/nginx.conf` — config principal
-- `/usr/local/openresty/nginx/conf/sites-enabled/` — un archivo por dominio
-- `/usr/local/openresty/nginx/conf/sites-available/` — configs disponibles (symlinked)
+### VPS compartido — CUIDADO
 
-**SSL** se maneja con Let's Encrypt (certbot) + lua-resty-auto-ssl para dominios dinámicos.
-
-**PM2** gestiona los procesos Node.js: rcapi-api, validafirma (varias instancias), miniverse.
-
-**Docker Compose** corre la infraestructura: PostgreSQL (25432), Redis (25379), Redpanda (25092), ClickHouse (25123).
-
-### Reglas críticas del VPS
+El VPS hospeda múltiples servicios (rCAPI, ValidaFirma, Cooperadores, ONEXO, Monitoring).
 
 1. **NUNCA modificar** configs de OpenResty de otros dominios — solo tocar `miniverse.redcumbre.cl`
-2. **NUNCA reiniciar** OpenResty sin `openresty -t` primero (test de config)
+2. **NUNCA reiniciar** OpenResty sin `openresty -t` primero
 3. **NUNCA tocar** Docker containers, PM2 apps de otros servicios, ni puertos que no sean de miniverse
 4. **NUNCA hacer** `rm -rf`, `systemctl stop`, `pm2 delete` de servicios que no sean miniverse
 5. **Siempre preguntar** al usuario antes de ejecutar cualquier comando destructivo en el VPS
-6. Los puertos 25050-25051 están reservados para miniverse. No usar otros puertos
-7. Para el primer deploy, pedir confirmación al usuario antes de crear directorios o configurar OpenResty
 
 ## Reglas
 
@@ -153,4 +132,4 @@ El VPS (`ssh vps-fireraise`) es una máquina **compartida** que hospeda múltipl
 2. **NO commitear** `.env.development` ni API keys.
 3. **Rebuild core** después de modificar `packages/core/`: `cd packages/core && npm run build`
 4. **Rebuild server** después de modificar `packages/server/`: `cd packages/server && npm run build`
-5. Después de rebuild, reiniciar: `systemctl --user restart miniverse`
+5. Después de rebuild, redesplegar: `npm run deploy`
