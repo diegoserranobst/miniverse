@@ -12,7 +12,8 @@
     "build:server": "cd packages/server && node build.js",
     "build:all": "npm run build --workspaces",
     "lint": "eslint packages/*/src/**/*.ts",
-    "typecheck": "tsc --noEmit --project packages/core/tsconfig.json"
+    "typecheck": "tsc --noEmit --project packages/core/tsconfig.json",
+    "deploy": "bash scripts/deploy.sh"
   },
   "devDependencies": {
     "sharp": "^0.34.5",
