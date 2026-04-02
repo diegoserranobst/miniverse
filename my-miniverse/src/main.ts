@@ -114,10 +114,9 @@ async function main() {
   const canvasW = gridCols * tileSize;
   const canvasH = gridRows * tileSize;
   const isMobileView = window.innerWidth <= 768 && window.innerWidth < window.innerHeight;
-  const maxW = window.innerWidth * (isMobileView ? 1.0 : 0.95);
-  const maxH = window.innerHeight * (isMobileView ? 0.92 : 0.75);
-  const rawScale = Math.min(maxW / canvasW, maxH / canvasH, 4);
-  const scale = isMobileView ? rawScale : Math.max(1, Math.floor(rawScale));
+  const scale = isMobileView
+    ? Math.min(window.innerWidth / canvasW, window.innerHeight * 0.92 / canvasH, 4)
+    : 2;
 
   const mv = new Miniverse({
     container,
