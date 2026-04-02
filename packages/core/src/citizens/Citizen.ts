@@ -185,8 +185,10 @@ export class Citizen {
 
     // Schedule navigation to the appropriate anchor on next update()
     if (prevState !== state) {
-      if (state === 'working' || state === 'thinking') {
+      if (state === 'working') {
         this.pendingAnchorType = 'work';
+      } else if (state === 'thinking') {
+        this.pendingAnchorType = 'utility';
       } else if (state === 'sleeping') {
         this.pendingAnchorType = 'rest';
       } else if (state === 'speaking' || state === 'collaborating') {

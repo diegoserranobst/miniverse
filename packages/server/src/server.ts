@@ -565,16 +565,26 @@ export class MiniverseServer {
 
     // Use first prompt as agent name (mimics VSCode tab title)
     if (event === 'UserPromptSubmit' && prompt && !this.agentFirstPrompt.has(agentId)) {
-      // Strip IDE tags like <ide_opened_file>...</ide_opened_file>
-      const cleanPrompt = prompt.replace(/<[^>]+>[^<]*<\/[^>]+>\s*/g, '').trim();
+      let cleanPrompt = prompt
+        .replace(/<[^>]+>[^<]*<\/[^>]+>\s*/g, '')  // Strip IDE tags
+        .replace(/\/\S+/g, (m) => m.split('/').pop() || m)  // /long/path → last segment
+        .replace(/[a-f0-9]{6,}/gi, '')  // Strip hex IDs (6+ chars)
+        .replace(/\s+/g, ' ')  // Collapse whitespace
+        .trim();
       if (cleanPrompt) {
-        this.agentFirstPrompt.set(agentId, truncate(cleanPrompt, 30));
+        this.agentFirstPrompt.set(agentId, truncate(cleanPrompt, 20));
       }
     }
 
+    // Clean folder name: strip hex IDs and "agent-" prefixes
+    const cleanFolder = folder
+      .replace(/^agent-/, '')
+      .replace(/[a-f0-9]{6,}/gi, '')
+      .replace(/[-_]+$/, '')
+      || 'code';
     const agentName = (data as any).name
       ?? this.agentFirstPrompt.get(agentId)
-      ?? (shortSession ? `Claude (${folder} #${shortSession})` : `Claude (${folder})`);
+      ?? `Claude (${cleanFolder})`;
 
     // Sub-agent fields
     const subagentId = data.subagent_id as string | undefined;
@@ -622,8 +632,8 @@ export class MiniverseServer {
         break;
 
       case 'Stop':
-        this.store.heartbeat({ agent: agentId, name: agentName, state: 'idle', task: null });
-        this.events.push(agentId, { type: 'status', state: 'idle' });
+        this.store.heartbeat({ agent: agentId, name: agentName, state: 'sleeping', task: null });
+        this.events.push(agentId, { type: 'status', state: 'sleeping' });
         break;
 
       case 'SubagentStart': {
@@ -632,26 +642,31 @@ export class MiniverseServer {
           ? `${agentId}-sub-${subagentId.slice(0, 6)}`
           : `${agentId}-sub-${Math.random().toString(36).slice(2, 8)}`;
         const subName = subagentTask
-          ? truncate(subagentTask, 30)
-          : `Claude (sub of ${folder})`;
-        this.store.heartbeat({ agent: subId, name: subName, state: 'working', task: subagentTask ?? 'Starting...' });
+          ? `Sub: ${truncate(subagentTask, 18)}`
+          : `Sub (${folder})`;
+        // Parent goes to SOCIAL to "delegate" — subagent appears there too
+        this.store.heartbeat({ agent: agentId, name: agentName, state: 'speaking', task: `Delegating: ${truncate(subagentTask ?? 'subtask', 40)}` });
+        this.store.heartbeat({ agent: subId, name: subName, state: 'speaking', task: subagentTask ?? 'Starting...' });
+        this.events.push(agentId, { type: 'status', state: 'speaking' });
         this.startKeepalive(subId, subName);
         // Add to unmatched queue so the subagent's own events get routed here
         this.unmatchedSubagents.push(subId);
         // Track sub-agent under parent so we can clean up on SessionEnd
         if (!this.subagentKeepAlives.has(agentId)) this.subagentKeepAlives.set(agentId, new Set());
         this.subagentKeepAlives.get(agentId)!.add(subId);
-        // Also update parent
-        this.store.heartbeat({ agent: agentId, name: agentName, state: 'working', task: 'Running subagent' });
+        // After brief social moment, both go to work
+        setTimeout(() => {
+          this.store.heartbeat({ agent: agentId, name: agentName, state: 'working', task: 'Running subagent' });
+          this.store.heartbeat({ agent: subId, name: subName, state: 'working', task: subagentTask ?? 'Working...' });
+        }, 3000);
         break;
       }
 
       case 'SubagentStop': {
-        // Find and offline the sub-agent
+        // Find the sub-agent
         const subs = this.subagentKeepAlives.get(agentId);
+        let matchedSubId: string | undefined;
         if (subs) {
-          // If we have a subagentId, match it; otherwise pop the most recent
-          let matchedSubId: string | undefined;
           if (subagentId) {
             const prefix = `${agentId}-sub-${subagentId.slice(0, 6)}`;
             for (const id of subs) {
@@ -659,13 +674,23 @@ export class MiniverseServer {
             }
           }
           if (!matchedSubId) matchedSubId = [...subs].pop();
-          if (matchedSubId) {
-            this.stopKeepalive(matchedSubId);
-            this.store.heartbeat({ agent: matchedSubId, name: matchedSubId, state: 'offline', task: null });
-            subs.delete(matchedSubId);
-          }
         }
-        this.store.heartbeat({ agent: agentId, name: agentName, state: 'working', task: 'Subagent complete' });
+        // Both meet in SOCIAL for the "report back" moment
+        this.store.heartbeat({ agent: agentId, name: agentName, state: 'speaking', task: 'Receiving report' });
+        this.events.push(agentId, { type: 'status', state: 'speaking' });
+        if (matchedSubId) {
+          this.store.heartbeat({ agent: matchedSubId, name: matchedSubId, state: 'speaking', task: 'Reporting back' });
+          this.stopKeepalive(matchedSubId);
+          // Subagent goes offline after the social moment
+          setTimeout(() => {
+            this.store.heartbeat({ agent: matchedSubId!, name: matchedSubId!, state: 'offline', task: null });
+            if (subs) subs.delete(matchedSubId!);
+          }, 3000);
+        }
+        // Parent goes back to work after social moment
+        setTimeout(() => {
+          this.store.heartbeat({ agent: agentId, name: agentName, state: 'working', task: 'Subagent complete' });
+        }, 3000);
         break;
       }
 

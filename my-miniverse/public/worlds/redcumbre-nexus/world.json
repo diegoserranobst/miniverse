@@ -510,7 +510,13 @@
       "anchors": [
         {
           "name": "rest_1",
-          "ox": 1.5,
+          "ox": 0.8,
+          "oy": 1.5,
+          "type": "rest"
+        },
+        {
+          "name": "rest_2",
+          "ox": 2.2,
           "oy": 1.5,
           "type": "rest"
         }
@@ -525,28 +531,34 @@
       "layer": "below",
       "anchors": [
         {
-          "name": "rest_2",
-          "ox": 1.5,
-          "oy": 1.5,
+          "name": "rest_3",
+          "ox": 0.8,
+          "oy": 0.8,
+          "type": "rest"
+        },
+        {
+          "name": "rest_4",
+          "ox": 2.2,
+          "oy": 0.8,
           "type": "rest"
         }
       ]
     },
     {
-      "id": "potted_bonsai_neon",
+      "id": "drone_charging_pad",
       "x": 5,
       "y": 7.5,
-      "w": 0.8,
-      "h": 0.8,
-      "layer": "below"
-    },
-    {
-      "id": "potted_bonsai_neon",
-      "x": 5,
-      "y": 10.5,
-      "w": 0.8,
-      "h": 0.8,
-      "layer": "below"
+      "w": 1,
+      "h": 1,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "rest_5",
+          "ox": 0.5,
+          "oy": 1,
+          "type": "rest"
+        }
+      ]
     },
     {
       "id": "drone_charging_pad",
@@ -554,6 +566,22 @@
       "y": 9,
       "w": 1,
       "h": 1,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "rest_6",
+          "ox": 0.5,
+          "oy": 1,
+          "type": "rest"
+        }
+      ]
+    },
+    {
+      "id": "potted_bonsai_neon",
+      "x": 5,
+      "y": 10.5,
+      "w": 0.8,
+      "h": 0.8,
       "layer": "below"
     },
     {
@@ -566,7 +594,19 @@
       "anchors": [
         {
           "name": "social_1",
+          "ox": -0.5,
+          "oy": 1.5,
+          "type": "social"
+        },
+        {
+          "name": "social_2",
           "ox": 0.75,
+          "oy": 1.8,
+          "type": "social"
+        },
+        {
+          "name": "social_3",
+          "ox": 2,
           "oy": 1.5,
           "type": "social"
         }
@@ -581,8 +621,20 @@
       "layer": "below",
       "anchors": [
         {
-          "name": "social_2",
+          "name": "social_4",
+          "ox": -0.5,
+          "oy": 1,
+          "type": "social"
+        },
+        {
+          "name": "social_5",
           "ox": 0.5,
+          "oy": 1.3,
+          "type": "social"
+        },
+        {
+          "name": "social_6",
+          "ox": 1.5,
           "oy": 1,
           "type": "social"
         }
@@ -594,28 +646,82 @@
       "y": 7.5,
       "w": 1,
       "h": 1,
-      "layer": "below"
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "social_7",
+          "ox": 0,
+          "oy": 1,
+          "type": "social"
+        },
+        {
+          "name": "social_8",
+          "ox": 1,
+          "oy": 1,
+          "type": "social"
+        }
+      ]
     },
     {
-      "id": "potted_bonsai_neon",
+      "id": "server_rack",
       "x": 9,
-      "y": 10,
-      "w": 0.8,
-      "h": 0.8,
-      "layer": "below"
+      "y": 9.5,
+      "w": 1.5,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "utility_1",
+          "ox": -0.5,
+          "oy": 1,
+          "type": "utility"
+        },
+        {
+          "name": "utility_2",
+          "ox": 0.75,
+          "oy": 1.2,
+          "type": "utility"
+        },
+        {
+          "name": "utility_3",
+          "ox": 2,
+          "oy": 1,
+          "type": "utility"
+        }
+      ]
     },
     {
-      "id": "potted_bonsai_neon",
+      "id": "holo_command_desk",
       "x": 12,
-      "y": 10,
-      "w": 0.8,
-      "h": 0.8,
-      "layer": "below"
+      "y": 9.5,
+      "w": 2,
+      "h": 1.5,
+      "layer": "below",
+      "anchors": [
+        {
+          "name": "utility_4",
+          "ox": 0,
+          "oy": 1,
+          "type": "utility"
+        },
+        {
+          "name": "utility_5",
+          "ox": 1,
+          "oy": 1.2,
+          "type": "utility"
+        },
+        {
+          "name": "utility_6",
+          "ox": 2,
+          "oy": 1,
+          "type": "utility"
+        }
+      ]
     },
     {
       "id": "cable_bundle_floor",
-      "x": 14,
-      "y": 10,
+      "x": 15,
+      "y": 10.5,
       "w": 1,
       "h": 0.5,
       "layer": "below"
@@ -630,7 +736,12 @@
     {
       "name": "wander_social",
       "x": 11,
-      "y": 10
+      "y": 9
+    },
+    {
+      "name": "wander_utility",
+      "x": 11,
+      "y": 11
     }
   ],
   "propImages": {
